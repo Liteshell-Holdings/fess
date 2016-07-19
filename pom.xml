@@ -1227,8 +1227,8 @@
 			<groupId>org.dbflute.tomcat</groupId>
 			<artifactId>tomcat-boot</artifactId>
 			<version>${tomcat.boot.version}</version>
-			<!-- Disable scope at development on IDEA -->
-			<scope>provided</scope>
+			<!--&lt;!&ndash; Disable scope at development on IDEA &ndash;&gt;-->
+			<!--<scope>provided</scope>-->
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.tomcat</groupId>

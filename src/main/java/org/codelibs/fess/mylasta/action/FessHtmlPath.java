@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2016 CodeLibs Project and the Others.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- */
 package org.codelibs.fess.mylasta.action;
 
 import org.lastaflute.web.response.next.HtmlNext;
@@ -114,8 +99,7 @@ public interface FessHtmlPath {
     HtmlNext path_AdminDictProtwords_AdminDictProtwordsDetailsJsp = new HtmlNext("/admin/dict/protwords/admin_dict_protwords_details.jsp");
 
     /** The path of the HTML: /admin/dict/protwords/admin_dict_protwords_download.jsp */
-    HtmlNext path_AdminDictProtwords_AdminDictProtwordsDownloadJsp =
-            new HtmlNext("/admin/dict/protwords/admin_dict_protwords_download.jsp");
+    HtmlNext path_AdminDictProtwords_AdminDictProtwordsDownloadJsp = new HtmlNext("/admin/dict/protwords/admin_dict_protwords_download.jsp");
 
     /** The path of the HTML: /admin/dict/protwords/admin_dict_protwords_edit.jsp */
     HtmlNext path_AdminDictProtwords_AdminDictProtwordsEditJsp = new HtmlNext("/admin/dict/protwords/admin_dict_protwords_edit.jsp");

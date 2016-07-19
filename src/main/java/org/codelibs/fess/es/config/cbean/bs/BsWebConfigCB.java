@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2016 CodeLibs Project and the Others.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- */
 package org.codelibs.fess.es.config.cbean.bs;
 
 import java.util.ArrayList;
@@ -74,7 +59,7 @@ public class BsWebConfigCB extends EsAbstractConditionBean {
 
     @Override
     public void acceptPrimaryKeyMap(Map<String, ? extends Object> primaryKeyMap) {
-        acceptPK((String) primaryKeyMap.get("_id"));
+        acceptPK((String)primaryKeyMap.get("_id"));
     }
 
     // ===================================================================================
@@ -150,83 +135,63 @@ public class BsWebConfigCB extends EsAbstractConditionBean {
         public void columnAvailable() {
             doColumn("available");
         }
-
         public void columnBoost() {
             doColumn("boost");
         }
-
         public void columnConfigParameter() {
             doColumn("configParameter");
         }
-
         public void columnCreatedBy() {
             doColumn("createdBy");
         }
-
         public void columnCreatedTime() {
             doColumn("createdTime");
         }
-
         public void columnDepth() {
             doColumn("depth");
         }
-
         public void columnExcludedDocUrls() {
             doColumn("excludedDocUrls");
         }
-
         public void columnExcludedUrls() {
             doColumn("excludedUrls");
         }
-
         public void columnIncludedDocUrls() {
             doColumn("includedDocUrls");
         }
-
         public void columnIncludedUrls() {
             doColumn("includedUrls");
         }
-
         public void columnIntervalTime() {
             doColumn("intervalTime");
         }
-
         public void columnTimeToLive() {
             doColumn("timeToLive");
         }
-
         public void columnMaxAccessCount() {
             doColumn("maxAccessCount");
         }
-
         public void columnName() {
             doColumn("name");
         }
-
         public void columnNumOfThread() {
             doColumn("numOfThread");
         }
-
         public void columnPermissions() {
             doColumn("permissions");
         }
-
         public void columnSortOrder() {
             doColumn("sortOrder");
         }
-
         public void columnUpdatedBy() {
             doColumn("updatedBy");
         }
-
         public void columnUpdatedTime() {
             doColumn("updatedTime");
         }
-
         public void columnUrls() {
             doColumn("urls");
         }
-
         public void columnUserAgent() {
             doColumn("userAgent");
         }

@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2016 CodeLibs Project and the Others.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- */
 package org.codelibs.fess.es.log.allcommon;
 
 import java.util.ArrayList;
@@ -145,8 +130,7 @@ public abstract class EsAbstractConditionQuery implements ConditionQuery {
     //                                                                            Register
     //                                                                            ========
 
-    protected BoolQueryBuilder regBoolCQ(List<QueryBuilder> mustList, List<QueryBuilder> shouldList, List<QueryBuilder> mustNotList,
-            List<QueryBuilder> filterList) {
+    protected BoolQueryBuilder regBoolCQ(List<QueryBuilder> mustList, List<QueryBuilder> shouldList, List<QueryBuilder> mustNotList, List<QueryBuilder> filterList) {
         assertObjectNotNull("mustList", mustList);
         assertObjectNotNull("shouldList", shouldList);
         assertObjectNotNull("mustNotList", mustNotList);
@@ -273,6 +257,7 @@ public abstract class EsAbstractConditionQuery implements ConditionQuery {
         registerOrderBy(field, false);
     }
 
+
     protected void registerOrderBy(String field, boolean ascOrDesc) {
         assertObjectNotNull("field", field);
         if (fieldSortBuilderList == null) {
@@ -285,7 +270,7 @@ public abstract class EsAbstractConditionQuery implements ConditionQuery {
     //                                                                       Invalid Query
     //                                                                       =============
     protected void checkEsInvalidQuery(String name, Object value) {
-        if (value == null || (value instanceof String && ((String) value).isEmpty())) {
+        if (value == null || (value instanceof String && ((String)value).isEmpty())) {
             String msg = "Cannot register null or empty query: name=" + name + " value=" + value;
             throw new InvalidQueryRegisteredException(msg);
         }
@@ -479,3 +464,4 @@ public abstract class EsAbstractConditionQuery implements ConditionQuery {
         void callback(CQ query);
     }
 }
+
