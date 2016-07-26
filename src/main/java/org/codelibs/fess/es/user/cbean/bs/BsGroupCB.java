@@ -59,7 +59,7 @@ public class BsGroupCB extends EsAbstractConditionBean {
 
     @Override
     public void acceptPrimaryKeyMap(Map<String, ? extends Object> primaryKeyMap) {
-        acceptPK((String)primaryKeyMap.get("_id"));
+        acceptPK((String) primaryKeyMap.get("_id"));
     }
 
     // ===================================================================================
@@ -135,6 +135,7 @@ public class BsGroupCB extends EsAbstractConditionBean {
         public void columnName() {
             doColumn("name");
         }
+
         public void columnGidNumber() {
             doColumn("gidNumber");
         }

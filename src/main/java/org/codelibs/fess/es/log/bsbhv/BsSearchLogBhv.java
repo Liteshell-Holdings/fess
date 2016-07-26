@@ -97,8 +97,7 @@ public abstract class BsSearchLogBhv extends EsAbstractBehavior<SearchLog, Searc
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends SearchLog> OptionalEntity<ENTITY> doSelectOptionalEntity(SearchLogCB cb,
-            Class<? extends ENTITY> tp) {
+    protected <ENTITY extends SearchLog> OptionalEntity<ENTITY> doSelectOptionalEntity(SearchLogCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -166,7 +165,7 @@ public abstract class BsSearchLogBhv extends EsAbstractBehavior<SearchLog, Searc
     }
 
     public void selectBulk(CBCall<SearchLogCB> cbLambda, EntityRowHandler<List<SearchLog>> entityLambda) {
-        delegateSelectBulk(createCB(cbLambda), entityLambda,typeOfSelectedEntity());
+        delegateSelectBulk(createCB(cbLambda), entityLambda, typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -261,4 +260,3 @@ public abstract class BsSearchLogBhv extends EsAbstractBehavior<SearchLog, Searc
 
     // #pending create, modify, remove
 }
-

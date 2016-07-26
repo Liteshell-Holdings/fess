@@ -130,7 +130,8 @@ public abstract class EsAbstractConditionQuery implements ConditionQuery {
     //                                                                            Register
     //                                                                            ========
 
-    protected BoolQueryBuilder regBoolCQ(List<QueryBuilder> mustList, List<QueryBuilder> shouldList, List<QueryBuilder> mustNotList, List<QueryBuilder> filterList) {
+    protected BoolQueryBuilder regBoolCQ(List<QueryBuilder> mustList, List<QueryBuilder> shouldList, List<QueryBuilder> mustNotList,
+            List<QueryBuilder> filterList) {
         assertObjectNotNull("mustList", mustList);
         assertObjectNotNull("shouldList", shouldList);
         assertObjectNotNull("mustNotList", mustNotList);
@@ -257,7 +258,6 @@ public abstract class EsAbstractConditionQuery implements ConditionQuery {
         registerOrderBy(field, false);
     }
 
-
     protected void registerOrderBy(String field, boolean ascOrDesc) {
         assertObjectNotNull("field", field);
         if (fieldSortBuilderList == null) {
@@ -270,7 +270,7 @@ public abstract class EsAbstractConditionQuery implements ConditionQuery {
     //                                                                       Invalid Query
     //                                                                       =============
     protected void checkEsInvalidQuery(String name, Object value) {
-        if (value == null || (value instanceof String && ((String)value).isEmpty())) {
+        if (value == null || (value instanceof String && ((String) value).isEmpty())) {
             String msg = "Cannot register null or empty query: name=" + name + " value=" + value;
             throw new InvalidQueryRegisteredException(msg);
         }
@@ -464,4 +464,3 @@ public abstract class EsAbstractConditionQuery implements ConditionQuery {
         void callback(CQ query);
     }
 }
-

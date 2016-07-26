@@ -65,8 +65,10 @@ public class WebConfigToRoleDbm extends AbstractDBMeta {
     //                                       ---------------
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     {
-        setupEpg(_epgMap, et-> ((WebConfigToRole)et).getRoleTypeId(),(et,vl)->((WebConfigToRole) et).setRoleTypeId(DfTypeUtil.toString(vl)), "roleTypeId");
-        setupEpg(_epgMap, et-> ((WebConfigToRole)et).getWebConfigId(),(et,vl)->((WebConfigToRole) et).setWebConfigId(DfTypeUtil.toString(vl)), "webConfigId");
+        setupEpg(_epgMap, et -> ((WebConfigToRole) et).getRoleTypeId(),
+                (et, vl) -> ((WebConfigToRole) et).setRoleTypeId(DfTypeUtil.toString(vl)), "roleTypeId");
+        setupEpg(_epgMap, et -> ((WebConfigToRole) et).getWebConfigId(),
+                (et, vl) -> ((WebConfigToRole) et).setWebConfigId(DfTypeUtil.toString(vl)), "webConfigId");
     }
 
     @Override
@@ -80,22 +82,41 @@ public class WebConfigToRoleDbm extends AbstractDBMeta {
     protected final String _tableDbName = "web_config_to_role";
     protected final String _tableDispName = "web_config_to_role";
     protected final String _tablePropertyName = "WebConfigToRole";
-    public String getTableDbName() { return _tableDbName; }
+
+    public String getTableDbName() {
+        return _tableDbName;
+    }
+
     @Override
-    public String getTableDispName() { return _tableDispName; }
+    public String getTableDispName() {
+        return _tableDispName;
+    }
+
     @Override
-    public String getTablePropertyName() { return _tablePropertyName; }
+    public String getTablePropertyName() {
+        return _tablePropertyName;
+    }
+
     @Override
-    public TableSqlName getTableSqlName() { return null; }
+    public TableSqlName getTableSqlName() {
+        return null;
+    }
 
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnRoleTypeId = cci("roleTypeId", "roleTypeId", null, null, String.class, "roleTypeId", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnWebConfigId = cci("webConfigId", "webConfigId", null, null, String.class, "webConfigId", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnRoleTypeId = cci("roleTypeId", "roleTypeId", null, null, String.class, "roleTypeId", null, false,
+            false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnWebConfigId = cci("webConfigId", "webConfigId", null, null, String.class, "webConfigId", null, false,
+            false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
 
-    public ColumnInfo columnRoleTypeId() { return _columnRoleTypeId; }
-    public ColumnInfo columnWebConfigId() { return _columnWebConfigId; }
+    public ColumnInfo columnRoleTypeId() {
+        return _columnRoleTypeId;
+    }
+
+    public ColumnInfo columnWebConfigId() {
+        return _columnWebConfigId;
+    }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
@@ -177,4 +198,3 @@ public class WebConfigToRoleDbm extends AbstractDBMeta {
         return null;
     }
 }
-

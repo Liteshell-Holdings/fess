@@ -63,10 +63,12 @@ public abstract class EsAbstractBehavior<ENTITY extends Entity, CB extends Condi
     protected String deleteTimeout = "3m";
     protected String refreshTimeout = "1m";
 
-
     protected abstract String asEsIndex();
+
     protected abstract String asEsIndexType();
+
     protected abstract String asEsSearchType();
+
     protected abstract <RESULT extends ENTITY> RESULT createEntity(Map<String, Object> source, Class<? extends RESULT> entityType);
 
     // ===================================================================================
@@ -612,4 +614,3 @@ public abstract class EsAbstractBehavior<ENTITY extends Entity, CB extends Condi
         }
     }
 }
-

@@ -91,8 +91,7 @@ public abstract class BsElevateWordBhv extends EsAbstractBehavior<ElevateWord, E
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends ElevateWord> OptionalEntity<ENTITY> doSelectOptionalEntity(ElevateWordCB cb,
-            Class<? extends ENTITY> tp) {
+    protected <ENTITY extends ElevateWord> OptionalEntity<ENTITY> doSelectOptionalEntity(ElevateWordCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -160,7 +159,7 @@ public abstract class BsElevateWordBhv extends EsAbstractBehavior<ElevateWord, E
     }
 
     public void selectBulk(CBCall<ElevateWordCB> cbLambda, EntityRowHandler<List<ElevateWord>> entityLambda) {
-        delegateSelectBulk(createCB(cbLambda), entityLambda,typeOfSelectedEntity());
+        delegateSelectBulk(createCB(cbLambda), entityLambda, typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -255,4 +254,3 @@ public abstract class BsElevateWordBhv extends EsAbstractBehavior<ElevateWord, E
 
     // #pending create, modify, remove
 }
-

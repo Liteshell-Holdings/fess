@@ -59,7 +59,7 @@ public class BsSearchFieldLogCB extends EsAbstractConditionBean {
 
     @Override
     public void acceptPrimaryKeyMap(Map<String, ? extends Object> primaryKeyMap) {
-        acceptPK((String)primaryKeyMap.get("_id"));
+        acceptPK((String) primaryKeyMap.get("_id"));
     }
 
     // ===================================================================================
@@ -135,9 +135,11 @@ public class BsSearchFieldLogCB extends EsAbstractConditionBean {
         public void columnName() {
             doColumn("name");
         }
+
         public void columnSearchLogId() {
             doColumn("searchLogId");
         }
+
         public void columnValue() {
             doColumn("value");
         }

@@ -65,8 +65,10 @@ public class LabelToRoleDbm extends AbstractDBMeta {
     //                                       ---------------
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     {
-        setupEpg(_epgMap, et-> ((LabelToRole)et).getLabelTypeId(),(et,vl)->((LabelToRole) et).setLabelTypeId(DfTypeUtil.toString(vl)), "labelTypeId");
-        setupEpg(_epgMap, et-> ((LabelToRole)et).getRoleTypeId(),(et,vl)->((LabelToRole) et).setRoleTypeId(DfTypeUtil.toString(vl)), "roleTypeId");
+        setupEpg(_epgMap, et -> ((LabelToRole) et).getLabelTypeId(),
+                (et, vl) -> ((LabelToRole) et).setLabelTypeId(DfTypeUtil.toString(vl)), "labelTypeId");
+        setupEpg(_epgMap, et -> ((LabelToRole) et).getRoleTypeId(), (et, vl) -> ((LabelToRole) et).setRoleTypeId(DfTypeUtil.toString(vl)),
+                "roleTypeId");
     }
 
     @Override
@@ -80,22 +82,41 @@ public class LabelToRoleDbm extends AbstractDBMeta {
     protected final String _tableDbName = "label_to_role";
     protected final String _tableDispName = "label_to_role";
     protected final String _tablePropertyName = "LabelToRole";
-    public String getTableDbName() { return _tableDbName; }
+
+    public String getTableDbName() {
+        return _tableDbName;
+    }
+
     @Override
-    public String getTableDispName() { return _tableDispName; }
+    public String getTableDispName() {
+        return _tableDispName;
+    }
+
     @Override
-    public String getTablePropertyName() { return _tablePropertyName; }
+    public String getTablePropertyName() {
+        return _tablePropertyName;
+    }
+
     @Override
-    public TableSqlName getTableSqlName() { return null; }
+    public TableSqlName getTableSqlName() {
+        return null;
+    }
 
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnLabelTypeId = cci("labelTypeId", "labelTypeId", null, null, String.class, "labelTypeId", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnRoleTypeId = cci("roleTypeId", "roleTypeId", null, null, String.class, "roleTypeId", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnLabelTypeId = cci("labelTypeId", "labelTypeId", null, null, String.class, "labelTypeId", null, false,
+            false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnRoleTypeId = cci("roleTypeId", "roleTypeId", null, null, String.class, "roleTypeId", null, false,
+            false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
 
-    public ColumnInfo columnLabelTypeId() { return _columnLabelTypeId; }
-    public ColumnInfo columnRoleTypeId() { return _columnRoleTypeId; }
+    public ColumnInfo columnLabelTypeId() {
+        return _columnLabelTypeId;
+    }
+
+    public ColumnInfo columnRoleTypeId() {
+        return _columnRoleTypeId;
+    }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
@@ -177,4 +198,3 @@ public class LabelToRoleDbm extends AbstractDBMeta {
         return null;
     }
 }
-

@@ -82,8 +82,7 @@ public abstract class BsRoleBhv extends EsAbstractBehavior<Role, RoleCB> {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Role> OptionalEntity<ENTITY> doSelectOptionalEntity(RoleCB cb,
-            Class<? extends ENTITY> tp) {
+    protected <ENTITY extends Role> OptionalEntity<ENTITY> doSelectOptionalEntity(RoleCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -151,7 +150,7 @@ public abstract class BsRoleBhv extends EsAbstractBehavior<Role, RoleCB> {
     }
 
     public void selectBulk(CBCall<RoleCB> cbLambda, EntityRowHandler<List<Role>> entityLambda) {
-        delegateSelectBulk(createCB(cbLambda), entityLambda,typeOfSelectedEntity());
+        delegateSelectBulk(createCB(cbLambda), entityLambda, typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -213,8 +212,7 @@ public abstract class BsRoleBhv extends EsAbstractBehavior<Role, RoleCB> {
         return batchInsert(list, call, null);
     }
 
-    public int[] batchInsert(List<Role> list, RequestOptionCall<BulkRequestBuilder> call,
-            RequestOptionCall<IndexRequestBuilder> entityCall) {
+    public int[] batchInsert(List<Role> list, RequestOptionCall<BulkRequestBuilder> call, RequestOptionCall<IndexRequestBuilder> entityCall) {
         return doBatchInsert(new BulkList<>(list, call, entityCall), null);
     }
 
@@ -226,8 +224,7 @@ public abstract class BsRoleBhv extends EsAbstractBehavior<Role, RoleCB> {
         return batchUpdate(list, call, null);
     }
 
-    public int[] batchUpdate(List<Role> list, RequestOptionCall<BulkRequestBuilder> call,
-            RequestOptionCall<IndexRequestBuilder> entityCall) {
+    public int[] batchUpdate(List<Role> list, RequestOptionCall<BulkRequestBuilder> call, RequestOptionCall<IndexRequestBuilder> entityCall) {
         return doBatchUpdate(new BulkList<>(list, call, entityCall), null);
     }
 
@@ -239,11 +236,9 @@ public abstract class BsRoleBhv extends EsAbstractBehavior<Role, RoleCB> {
         return batchDelete(list, call, null);
     }
 
-    public int[] batchDelete(List<Role> list, RequestOptionCall<BulkRequestBuilder> call,
-            RequestOptionCall<IndexRequestBuilder> entityCall) {
+    public int[] batchDelete(List<Role> list, RequestOptionCall<BulkRequestBuilder> call, RequestOptionCall<IndexRequestBuilder> entityCall) {
         return doBatchDelete(new BulkList<>(list, call, entityCall), null);
     }
 
     // #pending create, modify, remove
 }
-

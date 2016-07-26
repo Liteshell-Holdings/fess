@@ -17,7 +17,6 @@ import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.index.query.TermsQueryBuilder;
 
-
 /**
  * @author ESFlute (using FreeGen)
  */
@@ -47,7 +46,7 @@ public abstract class BsBoostDocumentRuleCQ extends EsAbstractConditionQuery {
 
     public void filtered(FilteredCall<BoostDocumentRuleCQ, BoostDocumentRuleCQ> filteredLambda,
             ConditionOptionCall<BoolQueryBuilder> opLambda) {
-        bool((must, should, mustNot, filter)->{
+        bool((must, should, mustNot, filter) -> {
             filteredLambda.callback(must, filter);
         }, opLambda);
     }
@@ -71,7 +70,9 @@ public abstract class BsBoostDocumentRuleCQ extends EsAbstractConditionQuery {
         BoostDocumentRuleCQ filterQuery = new BoostDocumentRuleCQ();
         boolLambda.callback(mustQuery, shouldQuery, mustNotQuery, filterQuery);
         if (mustQuery.hasQueries() || shouldQuery.hasQueries() || mustNotQuery.hasQueries() || filterQuery.hasQueries()) {
-            BoolQueryBuilder builder = regBoolCQ(mustQuery.getQueryBuilderList(), shouldQuery.getQueryBuilderList(), mustNotQuery.getQueryBuilderList(), filterQuery.getQueryBuilderList());
+            BoolQueryBuilder builder =
+                    regBoolCQ(mustQuery.getQueryBuilderList(), shouldQuery.getQueryBuilderList(), mustNotQuery.getQueryBuilderList(),
+                            filterQuery.getQueryBuilderList());
             if (opLambda != null) {
                 opLambda.callback(builder);
             }

@@ -65,7 +65,7 @@ public class RoleDbm extends AbstractDBMeta {
     //                                       ---------------
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     {
-        setupEpg(_epgMap, et-> ((Role)et).getName(),(et,vl)->((Role) et).setName(DfTypeUtil.toString(vl)), "name");
+        setupEpg(_epgMap, et -> ((Role) et).getName(), (et, vl) -> ((Role) et).setName(DfTypeUtil.toString(vl)), "name");
     }
 
     @Override
@@ -79,20 +79,35 @@ public class RoleDbm extends AbstractDBMeta {
     protected final String _tableDbName = "role";
     protected final String _tableDispName = "role";
     protected final String _tablePropertyName = "Role";
-    public String getTableDbName() { return _tableDbName; }
+
+    public String getTableDbName() {
+        return _tableDbName;
+    }
+
     @Override
-    public String getTableDispName() { return _tableDispName; }
+    public String getTableDispName() {
+        return _tableDispName;
+    }
+
     @Override
-    public String getTablePropertyName() { return _tablePropertyName; }
+    public String getTablePropertyName() {
+        return _tablePropertyName;
+    }
+
     @Override
-    public TableSqlName getTableSqlName() { return null; }
+    public TableSqlName getTableSqlName() {
+        return null;
+    }
 
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnName = cci("name", "name", null, null, String.class, "name", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnName = cci("name", "name", null, null, String.class, "name", null, false, false, false, "String", 0,
+            0, null, false, null, null, null, null, null, false);
 
-    public ColumnInfo columnName() { return _columnName; }
+    public ColumnInfo columnName() {
+        return _columnName;
+    }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
@@ -173,4 +188,3 @@ public class RoleDbm extends AbstractDBMeta {
         return null;
     }
 }
-

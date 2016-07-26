@@ -152,7 +152,7 @@ public abstract class BsElevateWordToLabelBhv extends EsAbstractBehavior<Elevate
     }
 
     public void selectBulk(CBCall<ElevateWordToLabelCB> cbLambda, EntityRowHandler<List<ElevateWordToLabel>> entityLambda) {
-        delegateSelectBulk(createCB(cbLambda), entityLambda,typeOfSelectedEntity());
+        delegateSelectBulk(createCB(cbLambda), entityLambda, typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -247,4 +247,3 @@ public abstract class BsElevateWordToLabelBhv extends EsAbstractBehavior<Elevate
 
     // #pending create, modify, remove
 }
-

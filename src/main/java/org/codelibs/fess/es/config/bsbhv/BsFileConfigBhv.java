@@ -101,8 +101,7 @@ public abstract class BsFileConfigBhv extends EsAbstractBehavior<FileConfig, Fil
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends FileConfig> OptionalEntity<ENTITY> doSelectOptionalEntity(FileConfigCB cb,
-            Class<? extends ENTITY> tp) {
+    protected <ENTITY extends FileConfig> OptionalEntity<ENTITY> doSelectOptionalEntity(FileConfigCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -170,7 +169,7 @@ public abstract class BsFileConfigBhv extends EsAbstractBehavior<FileConfig, Fil
     }
 
     public void selectBulk(CBCall<FileConfigCB> cbLambda, EntityRowHandler<List<FileConfig>> entityLambda) {
-        delegateSelectBulk(createCB(cbLambda), entityLambda,typeOfSelectedEntity());
+        delegateSelectBulk(createCB(cbLambda), entityLambda, typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -265,4 +264,3 @@ public abstract class BsFileConfigBhv extends EsAbstractBehavior<FileConfig, Fil
 
     // #pending create, modify, remove
 }
-

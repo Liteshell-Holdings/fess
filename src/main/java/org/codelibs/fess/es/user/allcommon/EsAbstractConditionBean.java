@@ -690,4 +690,3 @@ public abstract class EsAbstractConditionBean implements ConditionBean {
         }
     }
 }
-

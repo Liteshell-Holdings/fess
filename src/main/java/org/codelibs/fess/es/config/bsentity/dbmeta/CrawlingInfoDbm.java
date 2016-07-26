@@ -65,10 +65,13 @@ public class CrawlingInfoDbm extends AbstractDBMeta {
     //                                       ---------------
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     {
-        setupEpg(_epgMap, et-> ((CrawlingInfo)et).getCreatedTime(),(et,vl)->((CrawlingInfo) et).setCreatedTime(DfTypeUtil.toLong(vl)), "createdTime");
-        setupEpg(_epgMap, et-> ((CrawlingInfo)et).getExpiredTime(),(et,vl)->((CrawlingInfo) et).setExpiredTime(DfTypeUtil.toLong(vl)), "expiredTime");
-        setupEpg(_epgMap, et-> ((CrawlingInfo)et).getName(),(et,vl)->((CrawlingInfo) et).setName(DfTypeUtil.toString(vl)), "name");
-        setupEpg(_epgMap, et-> ((CrawlingInfo)et).getSessionId(),(et,vl)->((CrawlingInfo) et).setSessionId(DfTypeUtil.toString(vl)), "sessionId");
+        setupEpg(_epgMap, et -> ((CrawlingInfo) et).getCreatedTime(),
+                (et, vl) -> ((CrawlingInfo) et).setCreatedTime(DfTypeUtil.toLong(vl)), "createdTime");
+        setupEpg(_epgMap, et -> ((CrawlingInfo) et).getExpiredTime(),
+                (et, vl) -> ((CrawlingInfo) et).setExpiredTime(DfTypeUtil.toLong(vl)), "expiredTime");
+        setupEpg(_epgMap, et -> ((CrawlingInfo) et).getName(), (et, vl) -> ((CrawlingInfo) et).setName(DfTypeUtil.toString(vl)), "name");
+        setupEpg(_epgMap, et -> ((CrawlingInfo) et).getSessionId(), (et, vl) -> ((CrawlingInfo) et).setSessionId(DfTypeUtil.toString(vl)),
+                "sessionId");
     }
 
     @Override
@@ -82,26 +85,53 @@ public class CrawlingInfoDbm extends AbstractDBMeta {
     protected final String _tableDbName = "crawling_info";
     protected final String _tableDispName = "crawling_info";
     protected final String _tablePropertyName = "CrawlingInfo";
-    public String getTableDbName() { return _tableDbName; }
+
+    public String getTableDbName() {
+        return _tableDbName;
+    }
+
     @Override
-    public String getTableDispName() { return _tableDispName; }
+    public String getTableDispName() {
+        return _tableDispName;
+    }
+
     @Override
-    public String getTablePropertyName() { return _tablePropertyName; }
+    public String getTablePropertyName() {
+        return _tablePropertyName;
+    }
+
     @Override
-    public TableSqlName getTableSqlName() { return null; }
+    public TableSqlName getTableSqlName() {
+        return null;
+    }
 
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnCreatedTime = cci("createdTime", "createdTime", null, null, Long.class, "createdTime", null, false, false, false, "Long", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnExpiredTime = cci("expiredTime", "expiredTime", null, null, Long.class, "expiredTime", null, false, false, false, "Long", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnName = cci("name", "name", null, null, String.class, "name", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnSessionId = cci("sessionId", "sessionId", null, null, String.class, "sessionId", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnCreatedTime = cci("createdTime", "createdTime", null, null, Long.class, "createdTime", null, false,
+            false, false, "Long", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnExpiredTime = cci("expiredTime", "expiredTime", null, null, Long.class, "expiredTime", null, false,
+            false, false, "Long", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnName = cci("name", "name", null, null, String.class, "name", null, false, false, false, "String", 0,
+            0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnSessionId = cci("sessionId", "sessionId", null, null, String.class, "sessionId", null, false, false,
+            false, "String", 0, 0, null, false, null, null, null, null, null, false);
 
-    public ColumnInfo columnCreatedTime() { return _columnCreatedTime; }
-    public ColumnInfo columnExpiredTime() { return _columnExpiredTime; }
-    public ColumnInfo columnName() { return _columnName; }
-    public ColumnInfo columnSessionId() { return _columnSessionId; }
+    public ColumnInfo columnCreatedTime() {
+        return _columnCreatedTime;
+    }
+
+    public ColumnInfo columnExpiredTime() {
+        return _columnExpiredTime;
+    }
+
+    public ColumnInfo columnName() {
+        return _columnName;
+    }
+
+    public ColumnInfo columnSessionId() {
+        return _columnSessionId;
+    }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
@@ -185,4 +215,3 @@ public class CrawlingInfoDbm extends AbstractDBMeta {
         return null;
     }
 }
-

@@ -59,7 +59,7 @@ public class BsLabelToRoleCB extends EsAbstractConditionBean {
 
     @Override
     public void acceptPrimaryKeyMap(Map<String, ? extends Object> primaryKeyMap) {
-        acceptPK((String)primaryKeyMap.get("_id"));
+        acceptPK((String) primaryKeyMap.get("_id"));
     }
 
     // ===================================================================================
@@ -135,6 +135,7 @@ public class BsLabelToRoleCB extends EsAbstractConditionBean {
         public void columnLabelTypeId() {
             doColumn("labelTypeId");
         }
+
         public void columnRoleTypeId() {
             doColumn("roleTypeId");
         }

@@ -65,13 +65,20 @@ public class BoostDocumentRuleDbm extends AbstractDBMeta {
     //                                       ---------------
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     {
-        setupEpg(_epgMap, et-> ((BoostDocumentRule)et).getBoostExpr(),(et,vl)->((BoostDocumentRule) et).setBoostExpr(DfTypeUtil.toString(vl)), "boostExpr");
-        setupEpg(_epgMap, et-> ((BoostDocumentRule)et).getCreatedBy(),(et,vl)->((BoostDocumentRule) et).setCreatedBy(DfTypeUtil.toString(vl)), "createdBy");
-        setupEpg(_epgMap, et-> ((BoostDocumentRule)et).getCreatedTime(),(et,vl)->((BoostDocumentRule) et).setCreatedTime(DfTypeUtil.toLong(vl)), "createdTime");
-        setupEpg(_epgMap, et-> ((BoostDocumentRule)et).getSortOrder(),(et,vl)->((BoostDocumentRule) et).setSortOrder(DfTypeUtil.toInteger(vl)), "sortOrder");
-        setupEpg(_epgMap, et-> ((BoostDocumentRule)et).getUpdatedBy(),(et,vl)->((BoostDocumentRule) et).setUpdatedBy(DfTypeUtil.toString(vl)), "updatedBy");
-        setupEpg(_epgMap, et-> ((BoostDocumentRule)et).getUpdatedTime(),(et,vl)->((BoostDocumentRule) et).setUpdatedTime(DfTypeUtil.toLong(vl)), "updatedTime");
-        setupEpg(_epgMap, et-> ((BoostDocumentRule)et).getUrlExpr(),(et,vl)->((BoostDocumentRule) et).setUrlExpr(DfTypeUtil.toString(vl)), "urlExpr");
+        setupEpg(_epgMap, et -> ((BoostDocumentRule) et).getBoostExpr(),
+                (et, vl) -> ((BoostDocumentRule) et).setBoostExpr(DfTypeUtil.toString(vl)), "boostExpr");
+        setupEpg(_epgMap, et -> ((BoostDocumentRule) et).getCreatedBy(),
+                (et, vl) -> ((BoostDocumentRule) et).setCreatedBy(DfTypeUtil.toString(vl)), "createdBy");
+        setupEpg(_epgMap, et -> ((BoostDocumentRule) et).getCreatedTime(),
+                (et, vl) -> ((BoostDocumentRule) et).setCreatedTime(DfTypeUtil.toLong(vl)), "createdTime");
+        setupEpg(_epgMap, et -> ((BoostDocumentRule) et).getSortOrder(),
+                (et, vl) -> ((BoostDocumentRule) et).setSortOrder(DfTypeUtil.toInteger(vl)), "sortOrder");
+        setupEpg(_epgMap, et -> ((BoostDocumentRule) et).getUpdatedBy(),
+                (et, vl) -> ((BoostDocumentRule) et).setUpdatedBy(DfTypeUtil.toString(vl)), "updatedBy");
+        setupEpg(_epgMap, et -> ((BoostDocumentRule) et).getUpdatedTime(),
+                (et, vl) -> ((BoostDocumentRule) et).setUpdatedTime(DfTypeUtil.toLong(vl)), "updatedTime");
+        setupEpg(_epgMap, et -> ((BoostDocumentRule) et).getUrlExpr(),
+                (et, vl) -> ((BoostDocumentRule) et).setUrlExpr(DfTypeUtil.toString(vl)), "urlExpr");
     }
 
     @Override
@@ -85,32 +92,71 @@ public class BoostDocumentRuleDbm extends AbstractDBMeta {
     protected final String _tableDbName = "boost_document_rule";
     protected final String _tableDispName = "boost_document_rule";
     protected final String _tablePropertyName = "BoostDocumentRule";
-    public String getTableDbName() { return _tableDbName; }
+
+    public String getTableDbName() {
+        return _tableDbName;
+    }
+
     @Override
-    public String getTableDispName() { return _tableDispName; }
+    public String getTableDispName() {
+        return _tableDispName;
+    }
+
     @Override
-    public String getTablePropertyName() { return _tablePropertyName; }
+    public String getTablePropertyName() {
+        return _tablePropertyName;
+    }
+
     @Override
-    public TableSqlName getTableSqlName() { return null; }
+    public TableSqlName getTableSqlName() {
+        return null;
+    }
 
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnBoostExpr = cci("boostExpr", "boostExpr", null, null, String.class, "boostExpr", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnCreatedBy = cci("createdBy", "createdBy", null, null, String.class, "createdBy", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnCreatedTime = cci("createdTime", "createdTime", null, null, Long.class, "createdTime", null, false, false, false, "Long", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnSortOrder = cci("sortOrder", "sortOrder", null, null, Integer.class, "sortOrder", null, false, false, false, "Integer", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnUpdatedBy = cci("updatedBy", "updatedBy", null, null, String.class, "updatedBy", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnUpdatedTime = cci("updatedTime", "updatedTime", null, null, Long.class, "updatedTime", null, false, false, false, "Long", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnUrlExpr = cci("urlExpr", "urlExpr", null, null, String.class, "urlExpr", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnBoostExpr = cci("boostExpr", "boostExpr", null, null, String.class, "boostExpr", null, false, false,
+            false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnCreatedBy = cci("createdBy", "createdBy", null, null, String.class, "createdBy", null, false, false,
+            false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnCreatedTime = cci("createdTime", "createdTime", null, null, Long.class, "createdTime", null, false,
+            false, false, "Long", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnSortOrder = cci("sortOrder", "sortOrder", null, null, Integer.class, "sortOrder", null, false, false,
+            false, "Integer", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnUpdatedBy = cci("updatedBy", "updatedBy", null, null, String.class, "updatedBy", null, false, false,
+            false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnUpdatedTime = cci("updatedTime", "updatedTime", null, null, Long.class, "updatedTime", null, false,
+            false, false, "Long", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnUrlExpr = cci("urlExpr", "urlExpr", null, null, String.class, "urlExpr", null, false, false, false,
+            "String", 0, 0, null, false, null, null, null, null, null, false);
 
-    public ColumnInfo columnBoostExpr() { return _columnBoostExpr; }
-    public ColumnInfo columnCreatedBy() { return _columnCreatedBy; }
-    public ColumnInfo columnCreatedTime() { return _columnCreatedTime; }
-    public ColumnInfo columnSortOrder() { return _columnSortOrder; }
-    public ColumnInfo columnUpdatedBy() { return _columnUpdatedBy; }
-    public ColumnInfo columnUpdatedTime() { return _columnUpdatedTime; }
-    public ColumnInfo columnUrlExpr() { return _columnUrlExpr; }
+    public ColumnInfo columnBoostExpr() {
+        return _columnBoostExpr;
+    }
+
+    public ColumnInfo columnCreatedBy() {
+        return _columnCreatedBy;
+    }
+
+    public ColumnInfo columnCreatedTime() {
+        return _columnCreatedTime;
+    }
+
+    public ColumnInfo columnSortOrder() {
+        return _columnSortOrder;
+    }
+
+    public ColumnInfo columnUpdatedBy() {
+        return _columnUpdatedBy;
+    }
+
+    public ColumnInfo columnUpdatedTime() {
+        return _columnUpdatedTime;
+    }
+
+    public ColumnInfo columnUrlExpr() {
+        return _columnUrlExpr;
+    }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
@@ -197,4 +243,3 @@ public class BoostDocumentRuleDbm extends AbstractDBMeta {
         return null;
     }
 }
-

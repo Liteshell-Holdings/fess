@@ -35,7 +35,7 @@ public class EsStatusPostcard extends LaTypicalPostcard {
 
     @Override
     protected String[] getPropertyNames() {
-        return new String[] {"hostname", "server", "statusBefore", "statusAfter", "indexBefore", "indexAfter"};
+        return new String[] { "hostname", "server", "statusBefore", "statusAfter", "indexBefore", "indexAfter" };
     }
 
     // ===================================================================================

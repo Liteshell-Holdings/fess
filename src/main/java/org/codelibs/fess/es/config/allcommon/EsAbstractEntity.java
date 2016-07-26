@@ -268,4 +268,3 @@ public abstract class EsAbstractEntity implements Entity, Serializable, Cloneabl
         void callback(OP op);
     }
 }
-

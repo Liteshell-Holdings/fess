@@ -121,8 +121,7 @@ public abstract class BsUserBhv extends EsAbstractBehavior<User, UserCB> {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends User> OptionalEntity<ENTITY> doSelectOptionalEntity(UserCB cb,
-            Class<? extends ENTITY> tp) {
+    protected <ENTITY extends User> OptionalEntity<ENTITY> doSelectOptionalEntity(UserCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -190,7 +189,7 @@ public abstract class BsUserBhv extends EsAbstractBehavior<User, UserCB> {
     }
 
     public void selectBulk(CBCall<UserCB> cbLambda, EntityRowHandler<List<User>> entityLambda) {
-        delegateSelectBulk(createCB(cbLambda), entityLambda,typeOfSelectedEntity());
+        delegateSelectBulk(createCB(cbLambda), entityLambda, typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -252,8 +251,7 @@ public abstract class BsUserBhv extends EsAbstractBehavior<User, UserCB> {
         return batchInsert(list, call, null);
     }
 
-    public int[] batchInsert(List<User> list, RequestOptionCall<BulkRequestBuilder> call,
-            RequestOptionCall<IndexRequestBuilder> entityCall) {
+    public int[] batchInsert(List<User> list, RequestOptionCall<BulkRequestBuilder> call, RequestOptionCall<IndexRequestBuilder> entityCall) {
         return doBatchInsert(new BulkList<>(list, call, entityCall), null);
     }
 
@@ -265,8 +263,7 @@ public abstract class BsUserBhv extends EsAbstractBehavior<User, UserCB> {
         return batchUpdate(list, call, null);
     }
 
-    public int[] batchUpdate(List<User> list, RequestOptionCall<BulkRequestBuilder> call,
-            RequestOptionCall<IndexRequestBuilder> entityCall) {
+    public int[] batchUpdate(List<User> list, RequestOptionCall<BulkRequestBuilder> call, RequestOptionCall<IndexRequestBuilder> entityCall) {
         return doBatchUpdate(new BulkList<>(list, call, entityCall), null);
     }
 
@@ -278,11 +275,9 @@ public abstract class BsUserBhv extends EsAbstractBehavior<User, UserCB> {
         return batchDelete(list, call, null);
     }
 
-    public int[] batchDelete(List<User> list, RequestOptionCall<BulkRequestBuilder> call,
-            RequestOptionCall<IndexRequestBuilder> entityCall) {
+    public int[] batchDelete(List<User> list, RequestOptionCall<BulkRequestBuilder> call, RequestOptionCall<IndexRequestBuilder> entityCall) {
         return doBatchDelete(new BulkList<>(list, call, entityCall), null);
     }
 
     // #pending create, modify, remove
 }
-

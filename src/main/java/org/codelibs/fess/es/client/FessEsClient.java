@@ -322,6 +322,7 @@ public class FessEsClient implements Client {
                     final String indexConfigFile = indexConfigPath + "/" + configIndex + ".json";
                     try {
                         String source = FileUtil.readUTF8(indexConfigFile);
+                        logger.warn("source "+indexConfigFile+" "+source);
                         final String dictionaryPath = System.getProperty("fess.dictionary.path", StringUtil.EMPTY);
                         source = source.replaceAll(Pattern.quote("${fess.dictionary.path}"), dictionaryPath);
                         final CreateIndexResponse indexResponse =

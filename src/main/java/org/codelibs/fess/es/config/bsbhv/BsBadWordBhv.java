@@ -88,8 +88,7 @@ public abstract class BsBadWordBhv extends EsAbstractBehavior<BadWord, BadWordCB
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends BadWord> OptionalEntity<ENTITY> doSelectOptionalEntity(BadWordCB cb,
-            Class<? extends ENTITY> tp) {
+    protected <ENTITY extends BadWord> OptionalEntity<ENTITY> doSelectOptionalEntity(BadWordCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -157,7 +156,7 @@ public abstract class BsBadWordBhv extends EsAbstractBehavior<BadWord, BadWordCB
     }
 
     public void selectBulk(CBCall<BadWordCB> cbLambda, EntityRowHandler<List<BadWord>> entityLambda) {
-        delegateSelectBulk(createCB(cbLambda), entityLambda,typeOfSelectedEntity());
+        delegateSelectBulk(createCB(cbLambda), entityLambda, typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -252,4 +251,3 @@ public abstract class BsBadWordBhv extends EsAbstractBehavior<BadWord, BadWordCB
 
     // #pending create, modify, remove
 }
-

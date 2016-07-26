@@ -59,7 +59,7 @@ public class BsWebConfigToRoleCB extends EsAbstractConditionBean {
 
     @Override
     public void acceptPrimaryKeyMap(Map<String, ? extends Object> primaryKeyMap) {
-        acceptPK((String)primaryKeyMap.get("_id"));
+        acceptPK((String) primaryKeyMap.get("_id"));
     }
 
     // ===================================================================================
@@ -135,6 +135,7 @@ public class BsWebConfigToRoleCB extends EsAbstractConditionBean {
         public void columnRoleTypeId() {
             doColumn("roleTypeId");
         }
+
         public void columnWebConfigId() {
             doColumn("webConfigId");
         }

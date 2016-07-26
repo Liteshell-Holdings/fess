@@ -59,7 +59,7 @@ public class BsRequestHeaderCB extends EsAbstractConditionBean {
 
     @Override
     public void acceptPrimaryKeyMap(Map<String, ? extends Object> primaryKeyMap) {
-        acceptPK((String)primaryKeyMap.get("_id"));
+        acceptPK((String) primaryKeyMap.get("_id"));
     }
 
     // ===================================================================================
@@ -135,21 +135,27 @@ public class BsRequestHeaderCB extends EsAbstractConditionBean {
         public void columnCreatedBy() {
             doColumn("createdBy");
         }
+
         public void columnCreatedTime() {
             doColumn("createdTime");
         }
+
         public void columnName() {
             doColumn("name");
         }
+
         public void columnUpdatedBy() {
             doColumn("updatedBy");
         }
+
         public void columnUpdatedTime() {
             doColumn("updatedTime");
         }
+
         public void columnValue() {
             doColumn("value");
         }
+
         public void columnWebConfigId() {
             doColumn("webConfigId");
         }

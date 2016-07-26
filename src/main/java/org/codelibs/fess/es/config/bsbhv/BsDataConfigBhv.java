@@ -93,8 +93,7 @@ public abstract class BsDataConfigBhv extends EsAbstractBehavior<DataConfig, Dat
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends DataConfig> OptionalEntity<ENTITY> doSelectOptionalEntity(DataConfigCB cb,
-            Class<? extends ENTITY> tp) {
+    protected <ENTITY extends DataConfig> OptionalEntity<ENTITY> doSelectOptionalEntity(DataConfigCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -162,7 +161,7 @@ public abstract class BsDataConfigBhv extends EsAbstractBehavior<DataConfig, Dat
     }
 
     public void selectBulk(CBCall<DataConfigCB> cbLambda, EntityRowHandler<List<DataConfig>> entityLambda) {
-        delegateSelectBulk(createCB(cbLambda), entityLambda,typeOfSelectedEntity());
+        delegateSelectBulk(createCB(cbLambda), entityLambda, typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -257,4 +256,3 @@ public abstract class BsDataConfigBhv extends EsAbstractBehavior<DataConfig, Dat
 
     // #pending create, modify, remove
 }
-

@@ -83,8 +83,7 @@ public abstract class BsGroupBhv extends EsAbstractBehavior<Group, GroupCB> {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Group> OptionalEntity<ENTITY> doSelectOptionalEntity(GroupCB cb,
-            Class<? extends ENTITY> tp) {
+    protected <ENTITY extends Group> OptionalEntity<ENTITY> doSelectOptionalEntity(GroupCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -152,7 +151,7 @@ public abstract class BsGroupBhv extends EsAbstractBehavior<Group, GroupCB> {
     }
 
     public void selectBulk(CBCall<GroupCB> cbLambda, EntityRowHandler<List<Group>> entityLambda) {
-        delegateSelectBulk(createCB(cbLambda), entityLambda,typeOfSelectedEntity());
+        delegateSelectBulk(createCB(cbLambda), entityLambda, typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -214,8 +213,7 @@ public abstract class BsGroupBhv extends EsAbstractBehavior<Group, GroupCB> {
         return batchInsert(list, call, null);
     }
 
-    public int[] batchInsert(List<Group> list, RequestOptionCall<BulkRequestBuilder> call,
-            RequestOptionCall<IndexRequestBuilder> entityCall) {
+    public int[] batchInsert(List<Group> list, RequestOptionCall<BulkRequestBuilder> call, RequestOptionCall<IndexRequestBuilder> entityCall) {
         return doBatchInsert(new BulkList<>(list, call, entityCall), null);
     }
 
@@ -227,8 +225,7 @@ public abstract class BsGroupBhv extends EsAbstractBehavior<Group, GroupCB> {
         return batchUpdate(list, call, null);
     }
 
-    public int[] batchUpdate(List<Group> list, RequestOptionCall<BulkRequestBuilder> call,
-            RequestOptionCall<IndexRequestBuilder> entityCall) {
+    public int[] batchUpdate(List<Group> list, RequestOptionCall<BulkRequestBuilder> call, RequestOptionCall<IndexRequestBuilder> entityCall) {
         return doBatchUpdate(new BulkList<>(list, call, entityCall), null);
     }
 
@@ -240,11 +237,9 @@ public abstract class BsGroupBhv extends EsAbstractBehavior<Group, GroupCB> {
         return batchDelete(list, call, null);
     }
 
-    public int[] batchDelete(List<Group> list, RequestOptionCall<BulkRequestBuilder> call,
-            RequestOptionCall<IndexRequestBuilder> entityCall) {
+    public int[] batchDelete(List<Group> list, RequestOptionCall<BulkRequestBuilder> call, RequestOptionCall<IndexRequestBuilder> entityCall) {
         return doBatchDelete(new BulkList<>(list, call, entityCall), null);
     }
 
     // #pending create, modify, remove
 }
-

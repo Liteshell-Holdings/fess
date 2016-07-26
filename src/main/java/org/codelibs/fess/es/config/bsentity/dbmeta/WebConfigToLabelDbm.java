@@ -65,8 +65,10 @@ public class WebConfigToLabelDbm extends AbstractDBMeta {
     //                                       ---------------
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     {
-        setupEpg(_epgMap, et-> ((WebConfigToLabel)et).getLabelTypeId(),(et,vl)->((WebConfigToLabel) et).setLabelTypeId(DfTypeUtil.toString(vl)), "labelTypeId");
-        setupEpg(_epgMap, et-> ((WebConfigToLabel)et).getWebConfigId(),(et,vl)->((WebConfigToLabel) et).setWebConfigId(DfTypeUtil.toString(vl)), "webConfigId");
+        setupEpg(_epgMap, et -> ((WebConfigToLabel) et).getLabelTypeId(),
+                (et, vl) -> ((WebConfigToLabel) et).setLabelTypeId(DfTypeUtil.toString(vl)), "labelTypeId");
+        setupEpg(_epgMap, et -> ((WebConfigToLabel) et).getWebConfigId(),
+                (et, vl) -> ((WebConfigToLabel) et).setWebConfigId(DfTypeUtil.toString(vl)), "webConfigId");
     }
 
     @Override
@@ -80,22 +82,41 @@ public class WebConfigToLabelDbm extends AbstractDBMeta {
     protected final String _tableDbName = "web_config_to_label";
     protected final String _tableDispName = "web_config_to_label";
     protected final String _tablePropertyName = "WebConfigToLabel";
-    public String getTableDbName() { return _tableDbName; }
+
+    public String getTableDbName() {
+        return _tableDbName;
+    }
+
     @Override
-    public String getTableDispName() { return _tableDispName; }
+    public String getTableDispName() {
+        return _tableDispName;
+    }
+
     @Override
-    public String getTablePropertyName() { return _tablePropertyName; }
+    public String getTablePropertyName() {
+        return _tablePropertyName;
+    }
+
     @Override
-    public TableSqlName getTableSqlName() { return null; }
+    public TableSqlName getTableSqlName() {
+        return null;
+    }
 
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnLabelTypeId = cci("labelTypeId", "labelTypeId", null, null, String.class, "labelTypeId", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnWebConfigId = cci("webConfigId", "webConfigId", null, null, String.class, "webConfigId", null, false, false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnLabelTypeId = cci("labelTypeId", "labelTypeId", null, null, String.class, "labelTypeId", null, false,
+            false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnWebConfigId = cci("webConfigId", "webConfigId", null, null, String.class, "webConfigId", null, false,
+            false, false, "String", 0, 0, null, false, null, null, null, null, null, false);
 
-    public ColumnInfo columnLabelTypeId() { return _columnLabelTypeId; }
-    public ColumnInfo columnWebConfigId() { return _columnWebConfigId; }
+    public ColumnInfo columnLabelTypeId() {
+        return _columnLabelTypeId;
+    }
+
+    public ColumnInfo columnWebConfigId() {
+        return _columnWebConfigId;
+    }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
@@ -177,4 +198,3 @@ public class WebConfigToLabelDbm extends AbstractDBMeta {
         return null;
     }
 }
-
