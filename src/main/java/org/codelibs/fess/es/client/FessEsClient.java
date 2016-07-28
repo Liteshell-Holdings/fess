@@ -115,6 +115,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Order;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
+import org.elasticsearch.shield.ShieldPlugin;
 import org.elasticsearch.threadpool.ThreadPool;
 import org.lastaflute.core.message.UserMessages;
 import org.slf4j.Logger;
@@ -241,10 +242,20 @@ public class FessEsClient implements Client {
             logger.info("==========HOST2" + runner.node().settings().getAsInt("transport.tcp.port", 9300));
             addTransportAddress("localhost", 9300);
         } else {
-            final Builder settingsBuilder = Settings.settingsBuilder();
-            settingsBuilder.put("cluster.name", fessConfig.getElasticsearchClusterName());
+            final Builder settingsBuilder = Settings.settingsBuilder()
+                    .put("cluster.name", fessConfig.getElasticsearchClusterName())
+                    .put("transport.sniff", false)
+                    .put("action.bulk.compress", false)
+                    .put("shield.transport.ssl", false)
+                    .put("request.headers.X-Found-Cluster", "elasticsearch")
+                    .put("shield.user",  "vlad:Lapt3s1mls");
+
+
+
+
+
             final Settings settings = settingsBuilder.build();
-            final TransportClient transportClient = TransportClient.builder().settings(settings).build();
+            final TransportClient transportClient = TransportClient.builder().addPlugin(ShieldPlugin.class).settings(settings).build();
             for (final TransportAddress address : transportAddressList) {
                 transportClient.addTransportAddress(address);
                 logger.info("==========address" + address);

@@ -15,19 +15,6 @@
  */
 package org.codelibs.fess.api.es;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Locale;
-import java.util.UUID;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.catalina.connector.ClientAbortException;
 import org.codelibs.core.io.CopyUtil;
 import org.codelibs.core.io.InputStreamUtil;
@@ -40,18 +27,29 @@ import org.codelibs.fess.exception.FessSystemException;
 import org.codelibs.fess.exception.WebApiException;
 import org.codelibs.fess.mylasta.action.FessUserBean;
 import org.codelibs.fess.util.ComponentUtil;
-import org.codelibs.fess.util.ResourceUtil;
 import org.lastaflute.web.servlet.request.RequestManager;
 import org.lastaflute.web.servlet.session.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Locale;
+import java.util.UUID;
 
 public class EsApiManager extends BaseApiManager {
     private static final String ADMIN_SERVER = "/admin/server_";
 
     private static final Logger logger = LoggerFactory.getLogger(EsApiManager.class);
 
-    protected String[] acceptedRoles = new String[] { "admin" };
+    protected String[] acceptedRoles = new String[]{"admin"};
 
     public EsApiManager() {
         setPathPrefix(ADMIN_SERVER);
@@ -96,8 +94,7 @@ public class EsApiManager extends BaseApiManager {
 
     protected void processRequest(final HttpServletRequest request, final HttpServletResponse response, final String path) {
         final Method httpMethod = Method.valueOf(request.getMethod().toUpperCase(Locale.ROOT));
-        final CurlRequest curlRequest = new CurlRequest(httpMethod, ResourceUtil.getElasticsearchHttpUrl() + path);
-
+        final CurlRequest curlRequest = new CurlRequest(httpMethod, "http://vlad:Lapt3s1mls@localhost:9200" + path);
         if (StringUtil.isNotBlank(path)) {
             final String lowerPath = path.toLowerCase(Locale.ROOT);
             if (lowerPath.endsWith(".html")) {
@@ -118,6 +115,7 @@ public class EsApiManager extends BaseApiManager {
         });
         curlRequest.onConnect((req, con) -> {
             con.setDoOutput(true);
+            logger.info("Connected");
             if (httpMethod != Method.GET) {
                 try (ServletInputStream in = request.getInputStream(); OutputStream out = con.getOutputStream()) {
                     CopyUtil.copy(in, out);
@@ -126,7 +124,11 @@ public class EsApiManager extends BaseApiManager {
                 }
             }
         }).execute(con -> {
-            try (InputStream in = con.getInputStream(); ServletOutputStream out = response.getOutputStream()) {
+            logger.info("con " + con);
+            try (InputStream in = con.getInputStream();
+                 ServletOutputStream out = response.getOutputStream()) {
+                System.out.println("response" + response);
+                System.out.println("in" + in);
                 response.setStatus(con.getResponseCode());
                 CopyUtil.copy(in, out);
             } catch (final ClientAbortException e) {
@@ -139,11 +141,11 @@ public class EsApiManager extends BaseApiManager {
                         logger.error(new String(InputStreamUtil.getBytes(err), Constants.CHARSET_UTF_8));
                     } catch (final IOException e1) {
                         // ignore
+                    }
+                    throw new WebApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
+                }
             }
-            throw new WebApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
-        }
-    }
-}       );
+        });
     }
 
     public void setAcceptedRoles(final String[] acceptedRoles) {

@@ -15,22 +15,6 @@
  */
 package org.codelibs.fess.helper;
 
-import static org.codelibs.core.stream.StreamUtil.split;
-import static org.codelibs.core.stream.StreamUtil.stream;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Consumer;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
 import org.codelibs.core.lang.StringUtil;
 import org.codelibs.fess.es.client.FessEsClient;
 import org.codelibs.fess.es.config.exbhv.BadWordBhv;
@@ -49,6 +33,16 @@ import org.codelibs.fess.suggest.util.SuggestUtil;
 import org.codelibs.fess.util.ComponentUtil;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.function.Consumer;
+
+import static org.codelibs.core.stream.StreamUtil.split;
+import static org.codelibs.core.stream.StreamUtil.stream;
 
 public class SuggestHelper {
 
@@ -130,7 +124,7 @@ public class SuggestHelper {
                         stream(searchLog.getRoles()).of(stream -> stream.forEach(role -> roles.add(role)));
                         if (fessConfig.isValidSearchLogPermissions(roles.toArray(new String[roles.size()]))) {
                             suggester.indexer().indexFromSearchWord(sb.toString(), fields.toArray(new String[fields.size()]),
-                                    tags.toArray(new String[tags.size()]), roles.toArray(new String[roles.size()]), 1);
+                                    tags.toArray(new String[tags.size()]), roles.toArray(new String[roles.size()]), 1,"en_EN");
                         }
                     }
                 });
