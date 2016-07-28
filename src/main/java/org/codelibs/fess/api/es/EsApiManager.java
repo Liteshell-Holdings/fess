@@ -49,7 +49,7 @@ public class EsApiManager extends BaseApiManager {
 
     private static final Logger logger = LoggerFactory.getLogger(EsApiManager.class);
 
-    protected String[] acceptedRoles = new String[]{"admin"};
+    protected String[] acceptedRoles = new String[] { "admin" };
 
     public EsApiManager() {
         setPathPrefix(ADMIN_SERVER);
@@ -125,8 +125,7 @@ public class EsApiManager extends BaseApiManager {
             }
         }).execute(con -> {
             logger.info("con " + con);
-            try (InputStream in = con.getInputStream();
-                 ServletOutputStream out = response.getOutputStream()) {
+            try (InputStream in = con.getInputStream(); ServletOutputStream out = response.getOutputStream()) {
                 System.out.println("response" + response);
                 System.out.println("in" + in);
                 response.setStatus(con.getResponseCode());
@@ -141,11 +140,11 @@ public class EsApiManager extends BaseApiManager {
                         logger.error(new String(InputStreamUtil.getBytes(err), Constants.CHARSET_UTF_8));
                     } catch (final IOException e1) {
                         // ignore
-                    }
-                    throw new WebApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
-                }
             }
-        });
+            throw new WebApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
+        }
+    }
+}       );
     }
 
     public void setAcceptedRoles(final String[] acceptedRoles) {

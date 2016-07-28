@@ -1,5 +1,21 @@
+/*
+ * Copyright 2012-2016 CodeLibs Project and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
 package org.codelibs.fess.mylasta.direction;
 
+import org.codelibs.fess.mylasta.direction.FessEnv;
 import org.lastaflute.core.direction.exception.ConfigPropertyNotFoundException;
 
 /**
@@ -13,7 +29,7 @@ public interface FessConfig extends FessEnv, org.codelibs.fess.mylasta.direction
     /** The key of the configuration. e.g. elasticsearch */
     String ELASTICSEARCH_CLUSTER_NAME = "elasticsearch.cluster.name";
 
-    /** The key of the configuration. e.g. http://localhost:9201 */
+    /** The key of the configuration. e.g. http://localhost:9200 */
     String ELASTICSEARCH_HTTP_URL = "elasticsearch.http.url";
 
     /** The key of the configuration. e.g. aes */
@@ -1013,7 +1029,7 @@ public interface FessConfig extends FessEnv, org.codelibs.fess.mylasta.direction
 
     /**
      * Get the value for the key 'elasticsearch.http.url'. <br>
-     * The value is, e.g. http://localhost:9201 <br>
+     * The value is, e.g. http://localhost:9200 <br>
      * @return The value of found property. (NotNull: if not found, exception but basically no way)
      */
     String getElasticsearchHttpUrl();

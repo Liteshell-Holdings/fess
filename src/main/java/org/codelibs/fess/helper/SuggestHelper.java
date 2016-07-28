@@ -124,7 +124,7 @@ public class SuggestHelper {
                         stream(searchLog.getRoles()).of(stream -> stream.forEach(role -> roles.add(role)));
                         if (fessConfig.isValidSearchLogPermissions(roles.toArray(new String[roles.size()]))) {
                             suggester.indexer().indexFromSearchWord(sb.toString(), fields.toArray(new String[fields.size()]),
-                                    tags.toArray(new String[tags.size()]), roles.toArray(new String[roles.size()]), 1,"en_EN");
+                                    tags.toArray(new String[tags.size()]), roles.toArray(new String[roles.size()]), 1);
                         }
                     }
                 });

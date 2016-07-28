@@ -242,17 +242,10 @@ public class FessEsClient implements Client {
             logger.info("==========HOST2" + runner.node().settings().getAsInt("transport.tcp.port", 9300));
             addTransportAddress("localhost", 9300);
         } else {
-            final Builder settingsBuilder = Settings.settingsBuilder()
-                    .put("cluster.name", fessConfig.getElasticsearchClusterName())
-                    .put("transport.sniff", false)
-                    .put("action.bulk.compress", false)
-                    .put("shield.transport.ssl", false)
-                    .put("request.headers.X-Found-Cluster", "elasticsearch")
-                    .put("shield.user",  "vlad:Lapt3s1mls");
-
-
-
-
+            final Builder settingsBuilder =
+                    Settings.settingsBuilder().put("cluster.name", fessConfig.getElasticsearchClusterName()).put("transport.sniff", false)
+                            .put("action.bulk.compress", false).put("shield.transport.ssl", false)
+                            .put("request.headers.X-Found-Cluster", "elasticsearch").put("shield.user", "vlad:Lapt3s1mls");
 
             final Settings settings = settingsBuilder.build();
             final TransportClient transportClient = TransportClient.builder().addPlugin(ShieldPlugin.class).settings(settings).build();
@@ -274,7 +267,7 @@ public class FessEsClient implements Client {
                     buf.append(inetTransportAddress.address().getHostName());
                     buf.append(':');
                     buf.append(inetTransportAddress.address().getPort());
-                    logger.info("inetTransportAddress.address().getPort()"+inetTransportAddress.address().getPort());
+                    logger.info("inetTransportAddress.address().getPort()" + inetTransportAddress.address().getPort());
 
                 }
             }
@@ -297,120 +290,120 @@ public class FessEsClient implements Client {
                     exists = response.isExists();
                 } catch (final Exception e) {
                     // ignore
-                }
-                if (!exists) {
-                    configListMap.getOrDefault(configIndex, Collections.emptyList()).forEach(
-                            path -> {
-                                String source = null;
-                                final String filePath = indexConfigPath + "/" + configIndex + "/" + path;
-                                logger.info("filePath"+filePath);
-                                try {
-                                    source = FileUtil.readUTF8(filePath);
-                                    try (CurlResponse response =
-                                                 Curl.post(org.codelibs.fess.util.ResourceUtil.getElasticsearchHttpUrl() + "/_configsync/file")
-                                                         .param("path", path).body(source).execute()) {
-                                        if (response.getHttpStatusCode() == 200) {
-                                            logger.info("Register " + path + " to " + configIndex);
-                                        } else {
-                                            logger.warn("Invalid request for " + path);
-                                        }
-                                    }
-                                } catch (final Exception e) {
-                                    logger.warn("Failed to register " + filePath, e);
-                                }
-                            });
-                    try (CurlResponse response =
-                                 Curl.post(org.codelibs.fess.util.ResourceUtil.getElasticsearchHttpUrl() + "/_configsync/flush").execute()) {
-                        if (response.getHttpStatusCode() == 200) {
-                            logger.info("Flushed config files.");
-                        } else {
-                            logger.warn("Failed to flush config files.");
-                        }
-                    } catch (final Exception e) {
-                        logger.warn("Failed to flush config files.", e);
-                    }
-
-                    final String indexConfigFile = indexConfigPath + "/" + configIndex + ".json";
-                    try {
-                        String source = FileUtil.readUTF8(indexConfigFile);
-                        logger.warn("source "+indexConfigFile+" "+source);
-                        final String dictionaryPath = System.getProperty("fess.dictionary.path", StringUtil.EMPTY);
-                        source = source.replaceAll(Pattern.quote("${fess.dictionary.path}"), dictionaryPath);
-                        final CreateIndexResponse indexResponse =
-                                client.admin().indices().prepareCreate(configIndex).setSource(source).execute()
-                                        .actionGet(fessConfig.getIndexIndicesTimeout());
-                        if (indexResponse.isAcknowledged()) {
-                            logger.info("Created " + configIndex + " index.");
-                        } else if (logger.isDebugEnabled()) {
-                            logger.debug("Failed to create " + configIndex + " index.");
-                        }
-                    } catch (final IndexAlreadyExistsException e) {
-                        // IGNORE
-                    } catch (final Exception e) {
-                        logger.warn(indexConfigFile + " is not found.", e);
-                    }
-
-                    // alias
-                    final String aliasConfigDirPath = indexConfigPath + "/" + configIndex + "/alias";
-                    try {
-                        final File aliasConfigDir = ResourceUtil.getResourceAsFile(aliasConfigDirPath);
-                        if (aliasConfigDir.isDirectory()) {
-                            stream(aliasConfigDir.listFiles((dir, name) -> name.endsWith(".json"))).of(
-                                    stream -> stream.forEach(f -> {
-                                        final String aliasName = f.getName().replaceFirst(".json$", "");
-                                        final String source = FileUtil.readUTF8(f);
-                                        final IndicesAliasesResponse response =
-                                                client.admin().indices().prepareAliases().addAlias(configIndex, aliasName, source).execute()
-                                                        .actionGet(fessConfig.getIndexIndicesTimeout());
-                                        if (response.isAcknowledged()) {
-                                            logger.info("Created " + aliasName + " alias for " + configIndex);
-                                        } else if (logger.isDebugEnabled()) {
-                                            logger.debug("Failed to create " + aliasName + " alias for " + configIndex);
-                                        }
-                                    }));
-                        }
-                    } catch (final ResourceNotFoundRuntimeException e) {
-                        // ignore
-                    } catch (final Exception e) {
-                        logger.warn(aliasConfigDirPath + " is not found.", e);
-                    }
-                }
-
-                final GetMappingsResponse getMappingsResponse =
-                        client.admin().indices().prepareGetMappings(configIndex).execute().actionGet(fessConfig.getIndexIndicesTimeout());
-                final ImmutableOpenMap<String, MappingMetaData> indexMappings = getMappingsResponse.mappings().get(configIndex);
-                if (indexMappings == null || !indexMappings.containsKey(configType)) {
-                    String source = null;
-                    final String mappingFile = indexConfigPath + "/" + configIndex + "/" + configType + ".json";
-                    try {
-                        source = FileUtil.readUTF8(mappingFile);
-                    } catch (final Exception e) {
-                        logger.warn(mappingFile + " is not found.", e);
-                    }
-                    try {
-                        final PutMappingResponse putMappingResponse =
-                                client.admin().indices().preparePutMapping(configIndex).setType(configType).setSource(source).execute()
-                                        .actionGet(fessConfig.getIndexIndicesTimeout());
-                        if (putMappingResponse.isAcknowledged()) {
-                            logger.info("Created " + configIndex + "/" + configType + " mapping.");
-                        } else {
-                            logger.warn("Failed to create " + configIndex + "/" + configType + " mapping.");
-                        }
-
-                        final String dataPath = indexConfigPath + "/" + configIndex + "/" + configType + ".bulk";
-                        if (ResourceUtil.isExist(dataPath)) {
-                            insertBulkData(fessConfig, configIndex, configType, dataPath);
-                        }
-                    } catch (final Exception e) {
-                        logger.warn("Failed to create " + configIndex + "/" + configType + " mapping.", e);
-                    }
-                } else if (logger.isDebugEnabled()) {
-                    logger.debug(configIndex + "/" + configType + " mapping exists.");
-                }
-            } else {
-                logger.warn("Invalid index config name: " + configName);
             }
-        });
+            if (!exists) {
+                configListMap.getOrDefault(configIndex, Collections.emptyList()).forEach(
+                        path -> {
+                            String source = null;
+                            final String filePath = indexConfigPath + "/" + configIndex + "/" + path;
+                            logger.info("filePath" + filePath);
+                            try {
+                                source = FileUtil.readUTF8(filePath);
+                                try (CurlResponse response =
+                                        Curl.post(org.codelibs.fess.util.ResourceUtil.getElasticsearchHttpUrl() + "/_configsync/file")
+                                                .param("path", path).body(source).execute()) {
+                                    if (response.getHttpStatusCode() == 200) {
+                                        logger.info("Register " + path + " to " + configIndex);
+                                    } else {
+                                        logger.warn("Invalid request for " + path);
+                                    }
+                                }
+                            } catch (final Exception e) {
+                                logger.warn("Failed to register " + filePath, e);
+                            }
+                        });
+                try (CurlResponse response =
+                        Curl.post(org.codelibs.fess.util.ResourceUtil.getElasticsearchHttpUrl() + "/_configsync/flush").execute()) {
+                    if (response.getHttpStatusCode() == 200) {
+                        logger.info("Flushed config files.");
+                    } else {
+                        logger.warn("Failed to flush config files.");
+                    }
+                } catch (final Exception e) {
+                    logger.warn("Failed to flush config files.", e);
+                }
+
+                final String indexConfigFile = indexConfigPath + "/" + configIndex + ".json";
+                try {
+                    String source = FileUtil.readUTF8(indexConfigFile);
+                    logger.warn("source " + indexConfigFile + " " + source);
+                    final String dictionaryPath = System.getProperty("fess.dictionary.path", StringUtil.EMPTY);
+                    source = source.replaceAll(Pattern.quote("${fess.dictionary.path}"), dictionaryPath);
+                    final CreateIndexResponse indexResponse =
+                            client.admin().indices().prepareCreate(configIndex).setSource(source).execute()
+                                    .actionGet(fessConfig.getIndexIndicesTimeout());
+                    if (indexResponse.isAcknowledged()) {
+                        logger.info("Created " + configIndex + " index.");
+                    } else if (logger.isDebugEnabled()) {
+                        logger.debug("Failed to create " + configIndex + " index.");
+                    }
+                } catch (final IndexAlreadyExistsException e) {
+                    // IGNORE
+                } catch (final Exception e) {
+                    logger.warn(indexConfigFile + " is not found.", e);
+                }
+
+                // alias
+                final String aliasConfigDirPath = indexConfigPath + "/" + configIndex + "/alias";
+                try {
+                    final File aliasConfigDir = ResourceUtil.getResourceAsFile(aliasConfigDirPath);
+                    if (aliasConfigDir.isDirectory()) {
+                        stream(aliasConfigDir.listFiles((dir, name) -> name.endsWith(".json"))).of(
+                                stream -> stream.forEach(f -> {
+                                    final String aliasName = f.getName().replaceFirst(".json$", "");
+                                    final String source = FileUtil.readUTF8(f);
+                                    final IndicesAliasesResponse response =
+                                            client.admin().indices().prepareAliases().addAlias(configIndex, aliasName, source).execute()
+                                                    .actionGet(fessConfig.getIndexIndicesTimeout());
+                                    if (response.isAcknowledged()) {
+                                        logger.info("Created " + aliasName + " alias for " + configIndex);
+                                    } else if (logger.isDebugEnabled()) {
+                                        logger.debug("Failed to create " + aliasName + " alias for " + configIndex);
+                                    }
+                                }));
+                    }
+                } catch (final ResourceNotFoundRuntimeException e) {
+                    // ignore
+                } catch (final Exception e) {
+                    logger.warn(aliasConfigDirPath + " is not found.", e);
+                }
+            }
+
+            final GetMappingsResponse getMappingsResponse =
+                    client.admin().indices().prepareGetMappings(configIndex).execute().actionGet(fessConfig.getIndexIndicesTimeout());
+            final ImmutableOpenMap<String, MappingMetaData> indexMappings = getMappingsResponse.mappings().get(configIndex);
+            if (indexMappings == null || !indexMappings.containsKey(configType)) {
+                String source = null;
+                final String mappingFile = indexConfigPath + "/" + configIndex + "/" + configType + ".json";
+                try {
+                    source = FileUtil.readUTF8(mappingFile);
+                } catch (final Exception e) {
+                    logger.warn(mappingFile + " is not found.", e);
+                }
+                try {
+                    final PutMappingResponse putMappingResponse =
+                            client.admin().indices().preparePutMapping(configIndex).setType(configType).setSource(source).execute()
+                                    .actionGet(fessConfig.getIndexIndicesTimeout());
+                    if (putMappingResponse.isAcknowledged()) {
+                        logger.info("Created " + configIndex + "/" + configType + " mapping.");
+                    } else {
+                        logger.warn("Failed to create " + configIndex + "/" + configType + " mapping.");
+                    }
+
+                    final String dataPath = indexConfigPath + "/" + configIndex + "/" + configType + ".bulk";
+                    if (ResourceUtil.isExist(dataPath)) {
+                        insertBulkData(fessConfig, configIndex, configType, dataPath);
+                    }
+                } catch (final Exception e) {
+                    logger.warn("Failed to create " + configIndex + "/" + configType + " mapping.", e);
+                }
+            } else if (logger.isDebugEnabled()) {
+                logger.debug(configIndex + "/" + configType + " mapping exists.");
+            }
+        } else {
+            logger.warn("Invalid index config name: " + configName);
+        }
+    })  ;
     }
 
     protected void insertBulkData(final FessConfig fessConfig, final String configIndex, final String configType, final String dataPath) {
@@ -516,7 +509,7 @@ public class FessEsClient implements Client {
     }
 
     public <T> T get(final String index, final String type, final String id, final SearchCondition<GetRequestBuilder> condition,
-                     final SearchResult<T, GetRequestBuilder, GetResponse> searchResult) {
+            final SearchResult<T, GetRequestBuilder, GetResponse> searchResult) {
         final long startTime = System.currentTimeMillis();
 
         GetResponse response = null;
@@ -541,12 +534,11 @@ public class FessEsClient implements Client {
         }
         final long execTime = System.currentTimeMillis() - startTime;
 
-        return searchResult.build(requestBuilder, execTime, OptionalEntity.ofNullable(response, () -> {
-        }));
+        return searchResult.build(requestBuilder, execTime, OptionalEntity.ofNullable(response, () -> {}));
     }
 
     public <T> T search(final String index, final String type, final SearchCondition<SearchRequestBuilder> condition,
-                        final SearchResult<T, SearchRequestBuilder, SearchResponse> searchResult) {
+            final SearchResult<T, SearchRequestBuilder, SearchResponse> searchResult) {
         final long startTime = System.currentTimeMillis();
 
         SearchResponse searchResponse = null;
@@ -580,12 +572,11 @@ public class FessEsClient implements Client {
         }
         final long execTime = System.currentTimeMillis() - startTime;
 
-        return searchResult.build(searchRequestBuilder, execTime, OptionalEntity.ofNullable(searchResponse, () -> {
-        }));
+        return searchResult.build(searchRequestBuilder, execTime, OptionalEntity.ofNullable(searchResponse, () -> {}));
     }
 
     public OptionalEntity<Map<String, Object>> getDocument(final String index, final String type,
-                                                           final SearchCondition<SearchRequestBuilder> condition) {
+            final SearchCondition<SearchRequestBuilder> condition) {
         return getDocument(
                 index,
                 type,
@@ -611,7 +602,7 @@ public class FessEsClient implements Client {
     }
 
     public <T> OptionalEntity<T> getDocument(final String index, final String type, final SearchCondition<SearchRequestBuilder> condition,
-                                             final EntityCreator<T, SearchResponse, SearchHit> creator) {
+            final EntityCreator<T, SearchResponse, SearchHit> creator) {
         return search(index, type, condition, (queryBuilder, execTime, searchResponse) -> {
             return searchResponse.map(response -> {
                 final SearchHit[] hits = response.getHits().hits();
@@ -624,7 +615,7 @@ public class FessEsClient implements Client {
     }
 
     public OptionalEntity<Map<String, Object>> getDocument(final String index, final String type, final String id,
-                                                           final SearchCondition<GetRequestBuilder> condition) {
+            final SearchCondition<GetRequestBuilder> condition) {
         return getDocument(
                 index,
                 type,
@@ -652,7 +643,7 @@ public class FessEsClient implements Client {
     }
 
     public <T> OptionalEntity<T> getDocument(final String index, final String type, final String id,
-                                             final SearchCondition<GetRequestBuilder> condition, final EntityCreator<T, GetResponse, GetResponse> creator) {
+            final SearchCondition<GetRequestBuilder> condition, final EntityCreator<T, GetResponse, GetResponse> creator) {
         return get(index, type, id, condition, (queryBuilder, execTime, getResponse) -> {
             return getResponse.map(response -> {
                 return creator.build(response, response);
@@ -661,7 +652,7 @@ public class FessEsClient implements Client {
     }
 
     public List<Map<String, Object>> getDocumentList(final String index, final String type,
-                                                     final SearchCondition<SearchRequestBuilder> condition) {
+            final SearchCondition<SearchRequestBuilder> condition) {
         return getDocumentList(
                 index,
                 type,
@@ -687,7 +678,7 @@ public class FessEsClient implements Client {
     }
 
     public <T> List<T> getDocumentList(final String index, final String type, final SearchCondition<SearchRequestBuilder> condition,
-                                       final EntityCreator<T, SearchResponse, SearchHit> creator) {
+            final EntityCreator<T, SearchResponse, SearchHit> creator) {
         return search(index, type, condition, (searchRequestBuilder, execTime, searchResponse) -> {
             final List<T> list = new ArrayList<>();
             searchResponse.ifPresent(response -> {
@@ -851,12 +842,12 @@ public class FessEsClient implements Client {
                     context.skipRoleQuery();
                 }
                 // geo
-                if (geoInfo != null && geoInfo.toQueryBuilder() != null) {
-                    context.addQuery(boolQuery -> {
-                        boolQuery.filter(geoInfo.toQueryBuilder());
-                    });
-                }
-            });
+                    if (geoInfo != null && geoInfo.toQueryBuilder() != null) {
+                        context.addQuery(boolQuery -> {
+                            boolQuery.filter(geoInfo.toQueryBuilder());
+                        });
+                    }
+                });
 
             searchRequestBuilder.setFrom(offset).setSize(size);
 
@@ -899,8 +890,7 @@ public class FessEsClient implements Client {
                 stream(facetInfo.query).of(
                         stream -> stream.forEach(fq -> {
                             final QueryContext facetContext = new QueryContext(fq, false);
-                            queryHelper.buildBaseQuery(facetContext, c -> {
-                            });
+                            queryHelper.buildBaseQuery(facetContext, c -> {});
                             final String encodedFacetQuery = BaseEncoding.base64().encode(fq.getBytes(StandardCharsets.UTF_8));
                             final FilterAggregationBuilder filterBuilder =
                                     AggregationBuilders.filter(Constants.FACET_QUERY_PREFIX + encodedFacetQuery).filter(
