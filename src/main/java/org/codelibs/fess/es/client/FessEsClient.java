@@ -194,7 +194,7 @@ public class FessEsClient implements Client {
     public void open() {
         final FessConfig fessConfig = ComponentUtil.getFessConfig();
 
-        final String transportAddressesValue = "localhost:9300";
+        final String transportAddressesValue = System.getProperty(Constants.FESS_ES_TRANSPORT_ADDRESSES);
 
         logger.info("==========" + transportAddressesValue);
 
@@ -238,20 +238,21 @@ public class FessEsClient implements Client {
                 runner.build(config);
             }
             client = runner.client();
-
-            logger.info("==========HOST2" + runner.node().settings().getAsInt("transport.tcp.port", 9300));
             addTransportAddress("localhost", 9300);
         } else {
             final Builder settingsBuilder =
-                    Settings.settingsBuilder().put("cluster.name", fessConfig.getElasticsearchClusterName()).put("transport.sniff", false)
-                            .put("action.bulk.compress", false).put("shield.transport.ssl", false)
-                            .put("request.headers.X-Found-Cluster", "elasticsearch").put("shield.user", "vlad:Lapt3s1mls");
-
+                    Settings.settingsBuilder()
+                            .put("cluster.name", fessConfig.getElasticsearchClusterName())
+                            .put("transport.sniff", false)
+                            .put("action.bulk.compress", false)
+                            .put("shield.transport.ssl", false)
+                            .put("request.headers.X-Found-Cluster", fessConfig.getElasticsearchClusterName())
+                            .put("shield.user",
+                                    System.getProperty(Constants.SHIELD_USERNAME) + ":" + System.getProperty(Constants.SHIELD_PASSWORD));
             final Settings settings = settingsBuilder.build();
             final TransportClient transportClient = TransportClient.builder().addPlugin(ShieldPlugin.class).settings(settings).build();
             for (final TransportAddress address : transportAddressList) {
                 transportClient.addTransportAddress(address);
-                logger.info("==========address" + address);
             }
             client = transportClient;
         }

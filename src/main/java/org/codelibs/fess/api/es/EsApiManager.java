@@ -27,6 +27,7 @@ import org.codelibs.fess.exception.FessSystemException;
 import org.codelibs.fess.exception.WebApiException;
 import org.codelibs.fess.mylasta.action.FessUserBean;
 import org.codelibs.fess.util.ComponentUtil;
+import org.codelibs.fess.util.ResourceUtil;
 import org.lastaflute.web.servlet.request.RequestManager;
 import org.lastaflute.web.servlet.session.SessionManager;
 import org.slf4j.Logger;
@@ -94,7 +95,7 @@ public class EsApiManager extends BaseApiManager {
 
     protected void processRequest(final HttpServletRequest request, final HttpServletResponse response, final String path) {
         final Method httpMethod = Method.valueOf(request.getMethod().toUpperCase(Locale.ROOT));
-        final CurlRequest curlRequest = new CurlRequest(httpMethod, "http://vlad:Lapt3s1mls@localhost:9200" + path);
+        final CurlRequest curlRequest = new CurlRequest(httpMethod, ResourceUtil.getElasticsearchHttpUrl() + path);
         if (StringUtil.isNotBlank(path)) {
             final String lowerPath = path.toLowerCase(Locale.ROOT);
             if (lowerPath.endsWith(".html")) {

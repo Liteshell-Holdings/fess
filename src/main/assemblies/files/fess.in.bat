@@ -99,6 +99,8 @@ set FESS_JAVA_OPTS=%FESS_JAVA_OPTS% -Dlasta.env=web
 set FESS_JAVA_OPTS=%FESS_JAVA_OPTS% -Dtomcat.config.path=tomcat_config.properties
 
 REM External elasticsearch cluster
-REM FESS_JAVA_OPTS=%FESS_JAVA_OPTS% -Dfess.es.http_address=http://localhost:9200
-REM FESS_JAVA_OPTS=%FESS_JAVA_OPTS% -Dfess.es.transport_addresses=localhost:9300
+REM set FESS_JAVA_OPTS=%FESS_JAVA_OPTS% -Dfess.es.http_address=x
+REM FESS_JAVA_OPTS=%FESS_JAVA_OPTS% -Dfess.es.transport_addresses=y
+REM set FESS_JAVA_OPTS=%FESS_JAVA_OPTS% -Delasticsearch.shield.username=z
+REM FESS_JAVA_OPTS=%FESS_JAVA_OPTS% -Delasticsearch.shield.password=h
 REM FESS_JAVA_OPTS=%FESS_JAVA_OPTS% -Dfess.dictionary.path=%ES_HOME%\data\

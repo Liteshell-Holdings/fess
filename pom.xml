@@ -59,6 +59,8 @@
 		<!-- Crawler -->
 		<crawler.version>1.0.10-SNAPSHOT</crawler.version>
 
+		<crawler.version.es>1.0.10-CUSTOM</crawler.version.es>
+
 		<!-- Suggest -->
 		<suggest.version>2.3.0-SNAPSHOT</suggest.version>
 
@@ -1160,7 +1162,7 @@
 		<dependency>
 			<groupId>org.codelibs.fess</groupId>
 			<artifactId>fess-crawler-es</artifactId>
-			<version>${crawler.version}</version>
+			<version>${crawler.version.es}</version>
 		</dependency>
 		<dependency>
 			<groupId>args4j</groupId>
@@ -1244,7 +1246,7 @@
 			<artifactId>tomcat-boot</artifactId>
 			<version>${tomcat.boot.version}</version>
 			<!--&lt;!&ndash; Disable scope at development on IDEA &ndash;&gt;-->
-			<!--<scope>provided</scope>-->
+			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.tomcat</groupId>

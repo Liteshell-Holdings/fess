@@ -15,6 +15,12 @@
  */
 package org.codelibs.fess.util;
 
+import org.codelibs.core.lang.StringUtil;
+import org.codelibs.fess.Constants;
+import org.codelibs.fess.mylasta.direction.FessConfig;
+import org.lastaflute.web.util.LaServletContextUtil;
+
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.file.Files;
@@ -22,13 +28,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.servlet.ServletContext;
-
-import org.codelibs.core.lang.StringUtil;
-import org.codelibs.fess.Constants;
-import org.codelibs.fess.mylasta.direction.FessConfig;
-import org.lastaflute.web.util.LaServletContextUtil;
 
 public class ResourceUtil {
     protected ResourceUtil() {

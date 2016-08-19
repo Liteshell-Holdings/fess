@@ -15,19 +15,6 @@
  */
 package org.codelibs.fess.job;
 
-import static org.codelibs.core.stream.StreamUtil.stream;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-
-import javax.servlet.ServletContext;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -43,6 +30,18 @@ import org.codelibs.fess.util.InputStreamThread;
 import org.codelibs.fess.util.JobProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
+import static org.codelibs.core.stream.StreamUtil.stream;
 
 public class CrawlJob {
     private static final String REMOTE_DEBUG_OPTIONS = "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=127.0.0.1:8000";
@@ -286,6 +285,7 @@ public class CrawlJob {
         cmdList.add(buf.toString());
 
         if (useLocalElasticsearch) {
+            logger.info("Stating remote es for user: " + System.getProperty(Constants.SHIELD_USERNAME));
             final String transportAddresses = System.getProperty(Constants.FESS_ES_TRANSPORT_ADDRESSES);
             if (StringUtil.isNotBlank(transportAddresses)) {
                 cmdList.add("-D" + Constants.FESS_ES_TRANSPORT_ADDRESSES + "=" + transportAddresses);
@@ -293,6 +293,14 @@ public class CrawlJob {
             final String clusterName = System.getProperty(Constants.FESS_ES_CLUSTER_NAME);
             if (StringUtil.isNotBlank(clusterName)) {
                 cmdList.add("-D" + Constants.FESS_ES_CLUSTER_NAME + "=" + clusterName);
+            }
+            final String shieldUsername = System.getProperty(Constants.SHIELD_USERNAME);
+            if (StringUtil.isNotBlank(shieldUsername)) {
+                cmdList.add("-D" + Constants.SHIELD_USERNAME + "=" + shieldUsername);
+            }
+            final String shieldPassword = System.getProperty(Constants.SHIELD_PASSWORD);
+            if (StringUtil.isNotBlank(shieldUsername)) {
+                cmdList.add("-D" + Constants.SHIELD_PASSWORD + "=" + shieldPassword);
             }
         }
 

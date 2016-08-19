@@ -1,5 +1,4 @@
 #!/bin/sh
-
 FESS_CLASSPATH=$FESS_HOME/lib/classes
 
 if [ "x$FESS_MIN_MEM" = "x" ]; then
@@ -14,9 +13,11 @@ if [ "x$FESS_HEAP_SIZE" != "x" ]; then
 fi
 
 # External elasticsearch cluster
-#ES_HTTP_URL=http://localhost:9200
-#ES_TRANSPORT_URL=localhost:9300
-#FESS_DICTIONARY_PATH=/var/lib/elasticsearch/config/
+#ES_HTTP_URL=x
+#ES_TRANSPORT_URL=x
+#ES_USERNAME=x
+#ES_PASSWORD=x
+#FESS_DICTIONARY_PATH = /var/lib/elasticsearch/config/
 
 # min and max heap sizes should be set to the same value to avoid
 # stop-the-world GC pauses during resize, and so that we can lock the
@@ -93,6 +94,8 @@ FESS_JAVA_OPTS="$FESS_JAVA_OPTS -Dfess.log.path=$FESS_LOG_PATH"
 FESS_JAVA_OPTS="$FESS_JAVA_OPTS -Dfess.log.level=warn"
 FESS_JAVA_OPTS="$FESS_JAVA_OPTS -Dlasta.env=web"
 FESS_JAVA_OPTS="$FESS_JAVA_OPTS -Dtomcat.config.path=tomcat_config.properties"
+FESS_JAVA_OPTS="$FESS_JAVA_OPTS -Dcrawler.es.cluster_name=liteshell-data"
+
 if [ "x$FESS_CONF_PATH" != "x" ]; then
   FESS_JAVA_OPTS="$FESS_JAVA_OPTS -Dfess.conf.path=$FESS_CONF_PATH"
 fi
@@ -108,4 +111,11 @@ fi
 if [ "x$FESS_DICTIONARY_PATH" != "x" ]; then
   FESS_JAVA_OPTS="$FESS_JAVA_OPTS -Dfess.dictionary.path=$FESS_DICTIONARY_PATH"
 fi
+if [ "x$ES_USERNAME" != "x" ]; then
+  FESS_JAVA_OPTS="$FESS_JAVA_OPTS -Delasticsearch.shield.username=$ES_USERNAME"
+fi
+if [ "x$ES_PASSWORD" != "x" ]; then
+  FESS_JAVA_OPTS="$FESS_JAVA_OPTS -Delasticsearch.shield.password=$ES_PASSWORD"
+fi
+
 

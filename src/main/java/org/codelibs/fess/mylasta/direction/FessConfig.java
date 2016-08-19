@@ -15,7 +15,6 @@
  */
 package org.codelibs.fess.mylasta.direction;
 
-import org.codelibs.fess.mylasta.direction.FessEnv;
 import org.lastaflute.core.direction.exception.ConfigPropertyNotFoundException;
 
 /**
@@ -31,6 +30,12 @@ public interface FessConfig extends FessEnv, org.codelibs.fess.mylasta.direction
 
     /** The key of the configuration. e.g. http://localhost:9200 */
     String ELASTICSEARCH_HTTP_URL = "elasticsearch.http.url";
+
+    /** The key of the configuration. e.g. vlad */
+    String ELASTICSEARCH_HTTP_USERNAME = "elasticsearch.shield.username";
+
+    /** The key of the configuration. e.g. Lapt3s1m */
+    String ELASTICSEARCH_HTTP_PASSWORD = "elasticsearch.shield.password";
 
     /** The key of the configuration. e.g. aes */
     String APP_CIPHER_ALGORISM = "app.cipher.algorism";
@@ -1033,6 +1038,20 @@ public interface FessConfig extends FessEnv, org.codelibs.fess.mylasta.direction
      * @return The value of found property. (NotNull: if not found, exception but basically no way)
      */
     String getElasticsearchHttpUrl();
+
+    /**
+     * Get the value for the key 'elasticsearch.shield.username'. <br>
+     * The value is, e.g. http://localhost:9200 <br>
+     * @return The value of found property. (NotNull: if not found, exception but basically no way)
+     */
+    String getElasticsearchUsername();
+
+    /**
+     * Get the value for the key 'elasticsearch.shield.password'. <br>
+     * The value is, e.g. http://localhost:9200 <br>
+     * @return The value of found property. (NotNull: if not found, exception but basically no way)
+     */
+    String getElasticsearchPassword();
 
     /**
      * Get the value for the key 'app.cipher.algorism'. <br>
@@ -4021,6 +4040,16 @@ public interface FessConfig extends FessEnv, org.codelibs.fess.mylasta.direction
 
         public String getElasticsearchHttpUrl() {
             return get(FessConfig.ELASTICSEARCH_HTTP_URL);
+        }
+
+        @Override
+        public String getElasticsearchUsername() {
+            return get(FessConfig.ELASTICSEARCH_HTTP_USERNAME);
+        }
+
+        @Override
+        public String getElasticsearchPassword() {
+            return get(FessConfig.ELASTICSEARCH_HTTP_PASSWORD);
         }
 
         public String getAppCipherAlgorism() {

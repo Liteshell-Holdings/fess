@@ -15,11 +15,11 @@
  */
 package org.codelibs.fess;
 
-import java.util.TimeZone;
-import java.util.regex.Pattern;
-
 import org.codelibs.core.CoreLibConstants;
 import org.codelibs.core.lang.StringUtil;
+
+import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 public class Constants extends CoreLibConstants {
     public static final int MAJOR_VERSION = 10;
@@ -308,6 +308,10 @@ public class Constants extends CoreLibConstants {
     public static final String MATCHES_ALL_QUERY = "*:*";
 
     public static final String FESS_ES_TRANSPORT_ADDRESSES = "fess.es.transport_addresses";
+
+    public static final String SHIELD_USERNAME = "elasticsearch.shield.username";
+
+    public static final String SHIELD_PASSWORD = "elasticsearch.shield.password";
 
     public static final String FESS_ES_CLUSTER_NAME = "fess.es.cluster_name";
 
