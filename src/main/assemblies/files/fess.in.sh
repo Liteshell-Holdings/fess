@@ -12,7 +12,7 @@ if [ "x$FESS_HEAP_SIZE" != "x" ]; then
     FESS_MAX_MEM=$FESS_HEAP_SIZE
 fi
 
-# External elasticsearch cluster
+# External elasticsearch cluster will be injected from jenkins
 #ES_HTTP_URL=x
 #ES_TRANSPORT_URL=x
 #ES_USERNAME=x

@@ -15,34 +15,13 @@
  */
 package org.codelibs.fess.crawler.transformer;
 
-import static org.codelibs.core.stream.StreamUtil.stream;
-
-import java.io.BufferedInputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-import javax.xml.transform.TransformerException;
-
 import org.apache.xpath.objects.XObject;
 import org.codelibs.core.io.InputStreamUtil;
 import org.codelibs.core.io.SerializeUtil;
 import org.codelibs.core.lang.StringUtil;
 import org.codelibs.fess.Constants;
 import org.codelibs.fess.crawler.builder.RequestDataBuilder;
-import org.codelibs.fess.crawler.entity.AccessResultData;
-import org.codelibs.fess.crawler.entity.RequestData;
-import org.codelibs.fess.crawler.entity.ResponseData;
-import org.codelibs.fess.crawler.entity.ResultData;
-import org.codelibs.fess.crawler.entity.UrlQueue;
+import org.codelibs.fess.crawler.entity.*;
 import org.codelibs.fess.crawler.exception.ChildUrlsException;
 import org.codelibs.fess.crawler.exception.CrawlerSystemException;
 import org.codelibs.fess.crawler.exception.CrawlingAccessException;
@@ -51,23 +30,26 @@ import org.codelibs.fess.crawler.util.CrawlingParameterUtil;
 import org.codelibs.fess.crawler.util.UnsafeStringBuilder;
 import org.codelibs.fess.es.config.exentity.CrawlingConfig;
 import org.codelibs.fess.es.config.exentity.CrawlingConfig.ConfigName;
-import org.codelibs.fess.helper.CrawlingConfigHelper;
-import org.codelibs.fess.helper.CrawlingInfoHelper;
-import org.codelibs.fess.helper.DocumentHelper;
-import org.codelibs.fess.helper.DuplicateHostHelper;
-import org.codelibs.fess.helper.FileTypeHelper;
-import org.codelibs.fess.helper.LabelTypeHelper;
-import org.codelibs.fess.helper.PathMappingHelper;
-import org.codelibs.fess.helper.SystemHelper;
+import org.codelibs.fess.helper.*;
 import org.codelibs.fess.mylasta.direction.FessConfig;
 import org.codelibs.fess.util.ComponentUtil;
 import org.cyberneko.html.parsers.DOMParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import javax.annotation.PostConstruct;
+import javax.xml.transform.TransformerException;
+import java.io.BufferedInputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
+
+import static org.codelibs.core.stream.StreamUtil.stream;
 
 public class FessXpathTransformer extends XpathTransformer implements FessTransformer {
     private static final Logger logger = LoggerFactory.getLogger(FessXpathTransformer.class);
@@ -123,27 +105,27 @@ public class FessXpathTransformer extends XpathTransformer implements FessTransf
                 final XObject xObj = getXPathAPI().eval(document, path);
                 final int type = xObj.getType();
                 switch (type) {
-                case XObject.CLASS_BOOLEAN:
-                    final boolean b = xObj.bool();
-                    putResultDataBody(dataMap, entry.getKey(), Boolean.toString(b));
-                    break;
-                case XObject.CLASS_NUMBER:
-                    final double d = xObj.num();
-                    putResultDataBody(dataMap, entry.getKey(), Double.toString(d));
-                    break;
-                case XObject.CLASS_STRING:
-                    final String str = xObj.str();
-                    putResultDataBody(dataMap, entry.getKey(), str);
-                    break;
-                case XObject.CLASS_NULL:
-                case XObject.CLASS_UNKNOWN:
-                case XObject.CLASS_NODESET:
-                case XObject.CLASS_RTREEFRAG:
-                case XObject.CLASS_UNRESOLVEDVARIABLE:
-                default:
-                    final Node value = getXPathAPI().selectSingleNode(document, entry.getValue());
-                    putResultDataBody(dataMap, entry.getKey(), value != null ? value.getTextContent() : null);
-                    break;
+                    case XObject.CLASS_BOOLEAN:
+                        final boolean b = xObj.bool();
+                        putResultDataBody(dataMap, entry.getKey(), Boolean.toString(b));
+                        break;
+                    case XObject.CLASS_NUMBER:
+                        final double d = xObj.num();
+                        putResultDataBody(dataMap, entry.getKey(), Double.toString(d));
+                        break;
+                    case XObject.CLASS_STRING:
+                        final String str = xObj.str();
+                        putResultDataBody(dataMap, entry.getKey(), str);
+                        break;
+                    case XObject.CLASS_NULL:
+                    case XObject.CLASS_UNKNOWN:
+                    case XObject.CLASS_NODESET:
+                    case XObject.CLASS_RTREEFRAG:
+                    case XObject.CLASS_UNRESOLVEDVARIABLE:
+                    default:
+                        final Node value = getXPathAPI().selectSingleNode(document, entry.getValue());
+                        putResultDataBody(dataMap, entry.getKey(), value != null ? value.getTextContent() : null);
+                        break;
                 }
             } catch (final TransformerException e) {
                 logger.warn("Could not parse a value of " + entry.getKey() + ":" + entry.getValue());
@@ -151,7 +133,7 @@ public class FessXpathTransformer extends XpathTransformer implements FessTransf
         }
 
         putAdditionalData(dataMap, responseData, document);
-
+        putMetaHeaderData(dataMap, responseData, document);
         try {
             resultData.setData(SerializeUtil.fromObjectToBinary(dataMap));
         } catch (final Exception e) {
@@ -159,6 +141,25 @@ public class FessXpathTransformer extends XpathTransformer implements FessTransf
         }
         resultData.setEncoding(charsetName);
     }
+
+
+    protected void putMetaHeaderData(final Map<String, Object> dataMap, final ResponseData responseData, final Document document) {
+        HashMap<String, String> og = new HashMap<String, String>();
+        NodeList metas = document.getElementsByTagName("meta");
+        for (int i = 0; i < metas.getLength(); i++) {
+            NamedNodeMap attributes = metas.item(i).getAttributes();
+            if (attributes.getNamedItem("name") != null) {
+                og.put(attributes.getNamedItem("name").getNodeValue().replace(".", "_"), attributes.getNamedItem("content").getNodeValue());
+            } else if (attributes.getNamedItem("property") != null) {
+                og.put(attributes.getNamedItem("property").getNodeValue().replace(".", "_"), attributes.getNamedItem("content")
+                        .getNodeValue());
+            }
+        }
+        if (og.size() > 0) {
+            putResultDataBody(dataMap, "meta", og);
+        }
+    }
+
 
     protected void putAdditionalData(final Map<String, Object> dataMap, final ResponseData responseData, final Document document) {
         // canonical
