@@ -95,7 +95,8 @@ public class EsApiManager extends BaseApiManager {
 
     protected void processRequest(final HttpServletRequest request, final HttpServletResponse response, final String path) {
         final Method httpMethod = Method.valueOf(request.getMethod().toUpperCase(Locale.ROOT));
-        final CurlRequest curlRequest = new CurlRequest(httpMethod, "-u vlad:Lapt3s1mls" + ResourceUtil.getElasticsearchHttpUrl() + path);
+        final CurlRequest curlRequest = new CurlRequest(httpMethod, ResourceUtil.getElasticsearchHttpUrl() + path);
+        curlRequest.
         if (StringUtil.isNotBlank(path)) {
             final String lowerPath = path.toLowerCase(Locale.ROOT);
             if (lowerPath.endsWith(".html")) {

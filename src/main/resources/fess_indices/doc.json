@@ -433,8 +433,15 @@
     ],
     "properties": {
       "sentimental":{
-        "type":"object",
-        "enabled":"false"
+        "properties":{
+          "processed": {
+            "type": "boolean"
+          },
+          "data":{
+            "type":"object",
+            "enabled":"false"
+          }
+        }
       },
       "meta":{
         "type": "object",
