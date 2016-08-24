@@ -104,6 +104,8 @@ public class IndexingHelper {
 
         }
         if (!docIdList.isEmpty()) {
+
+            logger.debug("VLAD !docIdList.isEmpty() => ");
             fessEsClient.deleteByQuery(fessConfig.getIndexDocumentUpdateIndex(), fessConfig.getIndexDocumentType(),
                     QueryBuilders.idsQuery(fessConfig.getIndexDocumentType()).ids(docIdList.stream().toArray(n -> new String[n])));
 
