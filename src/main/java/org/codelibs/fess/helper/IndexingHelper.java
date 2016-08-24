@@ -15,10 +15,6 @@
  */
 package org.codelibs.fess.helper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.codelibs.fess.es.client.FessEsClient;
 import org.codelibs.fess.mylasta.direction.FessConfig;
 import org.codelibs.fess.util.ComponentUtil;
@@ -29,6 +25,10 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class IndexingHelper {
     private static final Logger logger = LoggerFactory.getLogger(IndexingHelper.class);
@@ -68,6 +68,7 @@ public class IndexingHelper {
         }
     }
 
+    // TODO: 8/24/2016 deleting documents
     private void deleteOldDocuments(final FessEsClient fessEsClient, final DocList docList) {
         final FessConfig fessConfig = ComponentUtil.getFessConfig();
 
@@ -96,7 +97,8 @@ public class IndexingHelper {
                 if (!idValue.equals(oldIdValue) && oldIdValue != null) {
                     final Object oldDocIdValue = doc.get(fessConfig.getIndexFieldDocId());
                     if (oldDocIdValue != null) {
-                        docIdList.add(oldDocIdValue.toString());
+                        logger.error("Document already found ====> " + oldDocIdValue.toString());
+                      //  docIdList.add(oldDocIdValue.toString());
                     }
                 }
             }
