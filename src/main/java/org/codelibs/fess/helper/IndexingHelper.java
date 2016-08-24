@@ -44,16 +44,13 @@ public class IndexingHelper {
             return;
         }
         final long execTime = System.currentTimeMillis();
-        if (logger.isDebugEnabled()) {
-            logger.debug("Sending " + docList.size() + " documents to a server.");
-        }
+            logger.info("Sending " + docList.size() + " documents to a server.");
         try {
             synchronized (fessEsClient) {
                 deleteOldDocuments(fessEsClient, docList);
                 final FessConfig fessConfig = ComponentUtil.getFessConfig();
                 fessEsClient.addAll(fessConfig.getIndexDocumentUpdateIndex(), fessConfig.getIndexDocumentType(), docList);
             }
-            if (logger.isInfoEnabled()) {
                 if (docList.getContentSize() > 0) {
                     logger.info("Sent " + docList.size() + " docs (Doc:{process " + docList.getProcessingTime() + "ms, send "
                             + (System.currentTimeMillis() - execTime) + "ms, size "
@@ -61,7 +58,6 @@ public class IndexingHelper {
                 } else {
                     logger.info("Sent " + docList.size() + " docs (Doc:{send " + (System.currentTimeMillis() - execTime) + "ms}, "
                             + MemoryUtil.getMemoryUsageLog() + ")");
-                }
             }
         } finally {
             docList.clear();
@@ -71,7 +67,7 @@ public class IndexingHelper {
     // TODO: 8/24/2016 deleting documents
     private void deleteOldDocuments(final FessEsClient fessEsClient, final DocList docList) {
         final FessConfig fessConfig = ComponentUtil.getFessConfig();
-
+        logger.error("VLAD Document deleteOldDocuments");
         final List<String> docIdList = new ArrayList<>();
         for (final Map<String, Object> inputDoc : docList) {
             final Object idValue = inputDoc.get(fessConfig.getIndexFieldId());
@@ -97,14 +93,15 @@ public class IndexingHelper {
                 if (!idValue.equals(oldIdValue) && oldIdValue != null) {
                     final Object oldDocIdValue = doc.get(fessConfig.getIndexFieldDocId());
                     if (oldDocIdValue != null) {
-                        logger.error("Document already found ====> " + oldDocIdValue.toString());
+
+                        logger.error("VLAD Document already found" + oldDocIdValue.toString());
                       //  docIdList.add(oldDocIdValue.toString());
                     }
                 }
             }
-            if (logger.isDebugEnabled()) {
-                logger.debug(queryBuilder.toString() + " => " + docs);
-            }
+
+                logger.debug("VLAD "+ queryBuilder.toString() + " => " + docs);
+
         }
         if (!docIdList.isEmpty()) {
             fessEsClient.deleteByQuery(fessConfig.getIndexDocumentUpdateIndex(), fessConfig.getIndexDocumentType(),
@@ -114,12 +111,15 @@ public class IndexingHelper {
     }
 
     public void deleteDocument(final FessEsClient fessEsClient, final String id) {
+
+        logger.error("VLAD Document deleteDocument" +id);
         final FessConfig fessConfig = ComponentUtil.getFessConfig();
         fessEsClient.delete(fessConfig.getIndexDocumentUpdateIndex(), fessConfig.getIndexDocumentType(), id, 0);
     }
 
     public void deleteDocumentsByDocId(final FessEsClient fessEsClient, final List<String> docIdList) {
         final FessConfig fessConfig = ComponentUtil.getFessConfig();
+        logger.error("VLAD Document deleteDocumentsByDocId " +docIdList.stream().count());
         fessEsClient.deleteByQuery(fessConfig.getIndexDocumentUpdateIndex(), fessConfig.getIndexDocumentType(),
                 QueryBuilders.idsQuery(fessConfig.getIndexDocumentType()).ids(docIdList.stream().toArray(n -> new String[n])));
     }
