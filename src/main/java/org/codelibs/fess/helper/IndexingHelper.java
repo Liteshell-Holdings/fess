@@ -47,7 +47,7 @@ public class IndexingHelper {
             logger.info("Sending " + docList.size() + " documents to a server.");
         try {
             synchronized (fessEsClient) {
-                deleteOldDocuments(fessEsClient, docList);
+                //deleteOldDocuments(fessEsClient, docList);
                 final FessConfig fessConfig = ComponentUtil.getFessConfig();
                 fessEsClient.addAll(fessConfig.getIndexDocumentUpdateIndex(), fessConfig.getIndexDocumentType(), docList);
             }
@@ -93,19 +93,18 @@ public class IndexingHelper {
                 if (!idValue.equals(oldIdValue) && oldIdValue != null) {
                     final Object oldDocIdValue = doc.get(fessConfig.getIndexFieldDocId());
                     if (oldDocIdValue != null) {
-
                         logger.error("VLAD Document already found" + oldDocIdValue.toString());
                       //  docIdList.add(oldDocIdValue.toString());
                     }
                 }
             }
 
-                logger.debug("VLAD "+ queryBuilder.toString() + " => " + docs);
+                logger.error("VLAD "+ queryBuilder.toString() + " => " + docs);
 
         }
         if (!docIdList.isEmpty()) {
 
-            logger.debug("VLAD !docIdList.isEmpty() => ");
+            logger.error("VLAD !docIdList.isEmpty() => ");
             fessEsClient.deleteByQuery(fessConfig.getIndexDocumentUpdateIndex(), fessConfig.getIndexDocumentType(),
                     QueryBuilders.idsQuery(fessConfig.getIndexDocumentType()).ids(docIdList.stream().toArray(n -> new String[n])));
 
@@ -113,7 +112,6 @@ public class IndexingHelper {
     }
 
     public void deleteDocument(final FessEsClient fessEsClient, final String id) {
-
         logger.error("VLAD Document deleteDocument" +id);
         final FessConfig fessConfig = ComponentUtil.getFessConfig();
         fessEsClient.delete(fessConfig.getIndexDocumentUpdateIndex(), fessConfig.getIndexDocumentType(), id, 0);
@@ -141,6 +139,7 @@ public class IndexingHelper {
     }
 
     public void deleteChildDocument(final FessEsClient fessEsClient, final String id) {
+        logger.error("VLAD Document deleteChildDocument " + id);
         final FessConfig fessConfig = ComponentUtil.getFessConfig();
         fessEsClient.deleteByQuery(fessConfig.getIndexDocumentUpdateIndex(), fessConfig.getIndexDocumentType(),
                 QueryBuilders.termQuery(fessConfig.getIndexFieldParentId(), id));
